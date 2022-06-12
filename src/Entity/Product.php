@@ -2,10 +2,13 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\Timestampable;
 use App\Repository\ProductRepository;
-use Symfony\Component\String\Slugger\SluggerInterface;
+
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\HasLifecycleCallbacks()]
@@ -32,13 +35,28 @@ class Product
     #[ORM\Column(type: 'integer')]
     private $stock;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    /**
+     * @var string|null
+     *
+     */
+    #[ORM\Column(type: 'string', length: 255, unique: true)]
+    #[Gedmo\Slug(fields: ['name'])]
     private $slug;
 
-    public function __construct(SluggerInterface $slugger)
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private $category;
+
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class)]
+    private $images;
+
+    public function __construct()
     {
-        $this->slugger = $slugger;
+        $this->images = new ArrayCollection();
     }
+
+ 
+    
 
     public function getId(): ?int
     {
@@ -100,7 +118,50 @@ class Product
 
     public function setSlug(string $slug): self
     {
-        $this->slug = $this->slugger->slug($slug)->lower();
+       
+        $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setCategory(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Image>
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(Image $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(Image $image): self
+    {
+        if ($this->images->removeElement($image)) {
+            // set the owning side to null (unless already changed)
+            if ($image->getProduct() === $this) {
+                $image->setProduct(null);
+            }
+        }
 
         return $this;
     }
