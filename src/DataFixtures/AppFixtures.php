@@ -3,6 +3,7 @@
 namespace App\DataFixtures;
 
 
+use App\Entity\Category;
 use Faker;
 use App\Entity\Product;
 use Doctrine\Persistence\ObjectManager;
@@ -15,13 +16,14 @@ class AppFixtures extends Fixture
         $faker = Faker\Factory::create();
 
 
-        for($i=0; $i<=25; $i++) {
+        for($i=1; $i<=9; $i++) {
            
          $product = new Product();
-         $product->setName('Product 2');
-         $product->setDescription('lorem ipsum');
-         $product->setPrice(1000);
-         $product->setStock(10);
+         $product->setName('Product '.$i);
+         $product->setDescription($faker->text);
+         $product->setPrice(100*rand(10,100));
+         $product->setStock(rand(5, 30));
+         $product->setCategory($manager->getRepository(Category::class)->find((rand(3,4))));
          $manager->persist($product);
 
         }

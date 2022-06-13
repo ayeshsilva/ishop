@@ -10,14 +10,11 @@
     <link rel="shortcut icon" type="image/x-icon" href="assets/img/favicon.ico">
 
     <!-- Load fonts style after rendering the layout styles -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
+    <link rel="stylesheet"
+          href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;200;300;400;500;700;900&display=swap">
     {% block stylesheets %}
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
-
-
-
-
 
 
 </head>
@@ -30,25 +27,15 @@
 {% include 'layouts/partials/_modal-search.html.twig' %}
 
 
-
-
-
 <!-- Start Content -->
 <section id="main">
-
-
-        {% block content %}
-
-
-        {%endblock%}
-
-
-</div>
+    {% block content %}
+    {% endblock %}
+    </div>
 </section>
 
 
 {% include 'layouts/partials/footer.html.twig' %}
-
 
 
 <!-- Start Script -->

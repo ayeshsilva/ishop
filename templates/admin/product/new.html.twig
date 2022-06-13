@@ -1,0 +1,15 @@
+{% extends 'admin/layouts/admin.html.twig' %}
+
+{% block title %}New Product{% endblock %}
+
+
+
+    {% block main_title %}Create new Product{% endblock %}
+
+
+{% block content %}
+
+    {{ include('admin/product/_form.html.twig') }}
+
+    <a href="{{ path('app_admin_product_index') }}">back to list</a>
+{% endblock %}
