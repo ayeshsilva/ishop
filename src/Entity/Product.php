@@ -50,9 +50,13 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class)]
     private $images;
 
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductQuantity::class, orphanRemoval: true)]
+    private $productQuantities;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->productQuantities = new ArrayCollection();
     }
 
  
@@ -160,6 +164,36 @@ class Product
             // set the owning side to null (unless already changed)
             if ($image->getProduct() === $this) {
                 $image->setProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, ProductQuantity>
+     */
+    public function getProductQuantities(): Collection
+    {
+        return $this->productQuantities;
+    }
+
+    public function addProductQuantity(ProductQuantity $productQuantity): self
+    {
+        if (!$this->productQuantities->contains($productQuantity)) {
+            $this->productQuantities[] = $productQuantity;
+            $productQuantity->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProductQuantity(ProductQuantity $productQuantity): self
+    {
+        if ($this->productQuantities->removeElement($productQuantity)) {
+            // set the owning side to null (unless already changed)
+            if ($productQuantity->getProduct() === $this) {
+                $productQuantity->setProduct(null);
             }
         }
 
