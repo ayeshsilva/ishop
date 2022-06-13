@@ -1,0 +1,49 @@
+{% extends 'front/layouts/base.html.twig' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <script src="https://js.stripe.com/v3/"></script>
+
+    {{ encore_entry_link_tags('stripe-checkout') }}
+{% endblock %}
+
+{% block content %}
+    <section class="bg-light">
+        <section class="container py-5">
+            <div class="row text-center pt-5 pb-3">
+                <div class="col-lg-6 m-auto">
+                    <h1 class="h1">Cart</h1>
+                    <section>
+                        <div class="row">
+                            <div class="col-md-6 m-auto">
+                                <!-- Display a payment form -->
+                                <form id="payment-form">
+                                    <div id="payment-element">
+                                        <!--Stripe.js injects the Payment Element-->
+                                    </div>
+                                    <button id="submit">
+                                        <div class="spinner hidden" id="spinner"></div>
+                                        <span id="button-text">Pay now</span>
+                                    </button>
+                                    <div id="payment-message" class="hidden"></div>
+                                </form>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+        </section>
+    </section>
+
+    <script>
+        {% include 'front/cart/partials/_checkout.js.twig'%}
+    </script>
+
+{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+
+    {% endblock %}

@@ -1,0 +1,115 @@
+{% extends 'front/layouts/base.html.twig' %}
+
+{% block title %}Cart{% endblock %}
+
+{% block content %}
+    <section class="bg-light">
+        <section class="container py-5">
+            <div class="row text-center pt-5 pb-3">
+                <div class="">
+                    <h1 class="h1">Cart</h1>
+                    <section>
+                        <div class="row">
+                            <aside class="col-md-8 m-auto">
+                                <div class="card">
+                                    {% if baskets is not empty %}
+                                    <div class="table-responsive">
+                                        <table class="table table-borderless table-shopping-cart">
+                                            <thead class="">
+                                            <tr class="small text-uppercase">
+                                                <th scope="col">Product</th>
+                                                <th scope="col" width="120">Quantity</th>
+                                                <th scope="col" width="120">Price</th>
+                                                <th scope="col" class="text-right d-none d-md-block" width="200"></th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+
+
+                                            {% for  key, basket in baskets %}
+                                                <tr>
+                                                    <td>
+                                                        <figure class="itemside align-items-center">
+                                                            <div class="aside"><img src="" class="img-sm"></div>
+                                                            <figcaption class="info"><a href="#" class="title text-dark"
+                                                                                        data-abc="true">{{ basket.product.name }}</a>
+                                                                <p class=" small">{#  basket.product.description #}</p>
+                                                            </figcaption>
+                                                        </figure>
+                                                    </td>
+                                                    <td><select class="form-control">
+                                                            <option>1</option>
+                                                            <option>2</option>
+                                                            <option>3</option>
+                                                            <option>4</option>
+                                                        </select></td>
+                                                    <td>
+                                                        <div class="price-wrap"><var
+                                                                    class="price">{{ basket.product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</var>
+                                                        </div>
+                                                    </td>
+                                                    <td class="text-right d-none d-md-block"><a
+                                                                href="{{ path('app_front_cart_remove', {'id': key }) }}">Remove</a>
+                                                    </td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </aside>
+                            <aside class="col-lg-3">
+                                <div class="card mb-3">
+                                    <div class="card-body">
+                                        <form>
+                                            <div class="form-group"><label>Have coupon?</label>
+                                                <div class="input-group"><input type="text" class="form-control coupon"
+                                                                                name="" placeholder="Coupon code"> <span
+                                                            class="input-group-append"> <button
+                                                                class="btn btn-primary btn-apply coupon">Apply</button> </span>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <dl class="dlist-align">
+                                            <dt>Total price:</dt>
+                                            <dd class="text-right ml-3">{{ caculateTotal()|format_currency('EUR', {rounding_mode: 'floor'}) }}</dd>
+                                        </dl>
+                                        {#
+                                        <dl class="dlist-align">
+                                            <dt>Discount:</dt>
+                                            <dd class="text-right text-danger ml-3">- $10.00</dd>
+                                        </dl>
+                                        #}
+                                        <dl class="dlist-align">
+                                            <dt>Total:</dt>
+
+                                            <dd class="text-right text-dark b ml-3">
+                                                <strong>{{ caculateTotal()|format_currency('EUR', {rounding_mode: 'floor'}) }}</strong>
+                                            </dd>
+                                        </dl>
+                                        <hr>
+
+                                        <a href="{{ path('front_checkout') }}" class="btn btn-out btn-success btn-square btn-main mt-2" data-abc="true">Continue Shopping</a>
+
+                                    </div>
+                                    {% else %}
+                                        No items
+                                    {% endif %}
+                                </div>
+                            </aside>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </section>
+    </section>
+
+{% endblock %}
+    {% block javascripts %}
+        {{ parent() }}
+
+    {% endblock %}

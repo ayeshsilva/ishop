@@ -2,7 +2,7 @@
 
 {% block title %}Product index{% endblock %}
 
-{% block body %}
+
 
     {% block main_title %}Product index{% endblock %}
     {% block content %}
@@ -26,7 +26,7 @@
                     <td>{{ product.id }}</td>
                     <td>{{ product.name }}</td>
                     <td>{{ product.description }}</td>
-                    <td>{{ product.price/100 }}</td>
+                    <td>{{ product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</td>
                     <td>{{ product.stock }}</td>
                     <td>{{ product.slug }}</td>
                     <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
@@ -49,4 +49,4 @@
 
 
 
-{% endblock %}
+

@@ -108,7 +108,7 @@
                                             <i class="text-muted fa fa-star"></i>
                                         </li>
                                     </ul>
-                                    <p class="text-center mb-0">{{ product.price/100}}</p>
+                                    <p class="text-center mb-0">{{ product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</p>
                                 </div>
                             </div>
                         </div>

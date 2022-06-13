@@ -15,6 +15,8 @@ use App\Repository\ProductRepository;
 class Product
 {
 
+    const DEVICE = 'eur';
+
     use Timestampable;
 
     
@@ -29,7 +31,7 @@ class Product
     #[ORM\Column(type: 'text')]
     private $description;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'float')]
     private $price;
 
     #[ORM\Column(type: 'integer')]
@@ -58,9 +60,6 @@ class Product
         $this->images = new ArrayCollection();
         $this->productQuantities = new ArrayCollection();
     }
-
- 
-    
 
     public function getId(): ?int
     {

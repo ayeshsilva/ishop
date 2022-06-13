@@ -1,0 +1,39 @@
+
+{% extends 'admin/layouts/admin.html.twig' %}
+
+{% block title %} Order{% endblock %}
+
+
+
+    {% block main_title %}Order{% endblock %}
+    {% block content %}
+
+
+
+        <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ order.id }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ order.status }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ order.updatedAt ? order.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_order_index') }}">back to list</a>
+
+
+
+
+{% endblock %}
