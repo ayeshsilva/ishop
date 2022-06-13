@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Front;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -12,7 +12,7 @@ class CustomerDashboardController extends AbstractController
     #[Route('/', name: 'app_customer_dashboard')]
     public function index(): Response
     {
-        return $this->render('customer_dashboard/index.html.twig', [
+        return $this->render('front/customer_dashboard/index.html.twig', [
 
         ]);
     }

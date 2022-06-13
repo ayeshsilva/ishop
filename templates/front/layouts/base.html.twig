@@ -16,26 +16,24 @@
         {{ encore_entry_link_tags('app') }}
     {% endblock %}
 
-
 </head>
 
 <body>
 
-{% include 'layouts/partials/nav.html.twig' %}
+{% include 'front/layouts/partials/nav.html.twig' %}
 
 
-{% include 'layouts/partials/_modal-search.html.twig' %}
+{% include 'front/layouts/partials/_modal-search.html.twig' %}
 
 
 <!-- Start Content -->
 <section id="main">
     {% block content %}
     {% endblock %}
-    </div>
 </section>
 
 
-{% include 'layouts/partials/footer.html.twig' %}
+{% include 'front/layouts/partials/footer.html.twig' %}
 
 
 <!-- Start Script -->
