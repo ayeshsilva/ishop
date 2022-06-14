@@ -18,6 +18,9 @@
                 {{ form_row(registrationForm.plainPassword, {
                     label: 'Password'
                 }) }}
+                {{ form_row(registrationForm.address) }}
+                {{ form_row(registrationForm.city) }}
+                {{ form_row(registrationForm.zipcode) }}
                 {{ form_row(registrationForm.agreeTerms) }}
 
                 <button type="submit" class="btn btn-primary">Register</button>

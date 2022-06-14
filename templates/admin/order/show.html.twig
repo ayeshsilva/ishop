@@ -1,20 +1,32 @@
-
 {% extends 'admin/layouts/admin.html.twig' %}
 
 {% block title %} Order{% endblock %}
 
-
-
     {% block main_title %}Order{% endblock %}
     {% block content %}
 
-
-
+        <div class="row">
+            <div class="col">
+                <a class="btn btn-success" href="{{ path('admin_order_invoice', {'id' : order.id}) }}">invoice</a>
+            </div>
+        </div>
         <table class="table">
-        <tbody>
+            <tbody>
             <tr>
                 <th>Id</th>
                 <td>{{ order.id }}</td>
+            </tr>
+            <tr>
+                <th>email</th>
+                <td>{{ order.user.email }}</td>
+            </tr>
+            <tr>
+                <th>firstName</th>
+                <td>{{ order.user.firstName }}</td>
+            </tr>
+            <tr>
+                <th>lastName</th>
+                <td>{{ order.user.lastName }}</td>
             </tr>
             <tr>
                 <th>Status</th>
@@ -22,18 +34,54 @@
             </tr>
             <tr>
                 <th>CreatedAt</th>
-                <td>{{ order.createdAt ? order.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ order.createdAt ? order.createdAt|date("F d Y g:i:sA", "Europe/Paris")  : '' }}</td>
             </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ order.updatedAt ? order.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('app_admin_order_index') }}">back to list</a>
+            </tbody>
+        </table>
+
+        <div class="row">
+        <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">product</th>
+            <th scope="col">description</th>
+            <th scope="col">quantity</th>
+            <th scope="col">price</th>
+            <th scope="col">total</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for invoice_calcul in  invoice_calculs %}
+            {% set index = 1 %}
+            {% for  productQuantity in invoice_calcul %}
+                <tr>
+                    <td>{{ index }}</td>
+                    <td>{{ productQuantity.product }}</td>
+                    <td>{{ productQuantity.description|u.truncate(40, '...', false) }}</td>
+                    <td>{{ productQuantity.quantity }}</td>
+                    <td>{{ productQuantity.price }}</td>
+                    <td>{{ productQuantity.subtotal }}</td>
+                </tr>
+                {% set index = index + 1 %}
+            {% endfor %}
+            </tbody>
+            </table>
+
+            </div>
+
+            <div>
+                Total Due {{ invoice_calculs.total_amount }}
+
+            </div>
+
+        {% endfor %}
+
+
+        <a href="{{ path('app_admin_order_index') }}">back to list</a>
 
 
 
 
-{% endblock %}
+    {% endblock %}

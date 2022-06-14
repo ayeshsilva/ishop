@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -39,20 +40,25 @@ class OrderRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Order[] Returns an array of Order objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('o')
-//            ->andWhere('o.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('o.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Order[] Returns an array of Order objects
+     */
+    public function findbyUserOrder( Order $order): array
+    {
+        return $this->createQueryBuilder('o')
+            ->select('o, u, pq, p')
+            ->join('o.productQuantities', 'pq')
+            ->join('o.user', 'u')
+            ->join('pq.product', 'p')
+            ->andWhere('o.id = pq.orders')
+            ->andWhere('o.id = :id' )
+            ->andWhere('u.id = :user' )
+            ->setParameter('id', $order->getId())
+            ->setParameter('user', $order->getUser()->getId())
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Order
 //    {

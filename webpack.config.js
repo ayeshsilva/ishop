@@ -22,7 +22,6 @@ Encore
      */
     .addEntry('app', './assets/app.js')
     .addEntry('admin', './assets/admin.js')
-    .addEntry('invoice', './assets/invoice.js')
     .addEntry('stripe-checkout', './assets/stripe-checkout.js')
 
     // enables the Symfony UX Stimulus bridge (used in assets/bootstrap.js)
