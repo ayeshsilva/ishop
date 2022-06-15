@@ -4,8 +4,14 @@
 
 
 
-    {% block main_title %}Product index{% endblock %}
+    {% block main_title %}Product index ({{ products.totalItemCount}}){% endblock %}
+
     {% block content %}
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <a class="btn btn-success" href="{{ path('app_admin_product_new') }}">Create new</a>
+            </div>
+        </div>
         <table class="table">
             <thead>
             <tr>
@@ -32,8 +38,8 @@
                     <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>
-                        <a href="{{ path('app_admin_product_show', {'id': product.id}) }}">show</a>
-                        <a href="{{ path('app_admin_product_edit', {'id': product.id}) }}">edit</a>
+                        <a class="btn btn-warning" href="{{ path('app_admin_product_show', {'id': product.id}) }}">show</a>
+                        <a class="btn btn-primary" href="{{ path('app_admin_product_edit', {'id': product.id}) }}">edit</a>
                     </td>
                 </tr>
             {% else %}
@@ -45,12 +51,11 @@
         </table>
         {# display navigation #}
         <div class="d-flex justify-content-center">
-
             {{ knp_pagination_render(products, 'admin/layouts/partials/_pagination.html.twig') }}
         </div>
 
 
-        <a href="{{ path('app_admin_product_new') }}">Create new</a>
+
     {% endblock %}
 
 

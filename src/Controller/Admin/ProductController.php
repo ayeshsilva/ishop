@@ -15,17 +15,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     #[Route('/', name: 'app_admin_product_index', methods: ['GET'])]
-    public function index(Request $request, ProductRepository $productRepository, PaginatorInterface $paginator ): Response
+    public function index(Request $request, ProductRepository $productRepository, PaginatorInterface $paginator): Response
     {
-        $query = $productRepository->findAll();
+
         $products = $paginator->paginate(
-            $query, /* query NOT result */
-            $request->query->getInt('page', 1), /*page number*/
-            10 /*limit per page*/
+            $productRepository->findBy([], ['id'=>'desc']),
+            $request->query->getInt('page', 1),
+            10
         );
 
-
-        //$products  = $productRepository->getPaginationProducts(2,5);
 
         return $this->render('admin/product/index.html.twig', [
             'products' => $products,
@@ -80,7 +78,7 @@ class ProductController extends AbstractController
     #[Route('/{id}', name: 'app_admin_product_delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $product->getId(), $request->request->get('_token'))) {
             $productRepository->remove($product, true);
         }
 
