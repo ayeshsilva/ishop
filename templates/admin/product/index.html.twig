@@ -43,6 +43,12 @@
             {% endfor %}
             </tbody>
         </table>
+        {# display navigation #}
+        <div class="d-flex justify-content-center">
+
+            {{ knp_pagination_render(products, 'admin/layouts/partials/_pagination.html.twig') }}
+        </div>
+
 
         <a href="{{ path('app_admin_product_new') }}">Create new</a>
     {% endblock %}

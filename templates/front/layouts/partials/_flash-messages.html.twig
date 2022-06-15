@@ -1,0 +1,7 @@
+{% for label, flashes in app.session.flashbag.all %}
+    {% for flash in flashes %}
+        <div class="alert text-center alert-{{ label }} alert-dismissible fade show mb-0" role="alert">
+            {{ flash}}
+        </div>
+    {% endfor %}
+{% endfor %}

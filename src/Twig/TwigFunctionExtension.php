@@ -19,11 +19,24 @@ class TwigFunctionExtension extends AbstractExtension
     {
         return [
             new TwigFunction('caculateTotal', [$this, 'caculateTotal']),
+            new TwigFunction('link_to_user', [$this, 'linkToUser']),
         ];
     }
 
     public function caculateTotal()
     {
         return $this->cartManager->calculateTotal();
+    }
+
+    public function linkToUser($app)
+    {
+        $link = null;
+       if (in_array("ROLE_ADMIN", $app->getUser()->getRoles())) {
+           $link = 'app_admin_dashboard';
+       }
+        if (in_array("ROLE_CUSTOMER", $app->getUser()->getRoles())) {
+            $link = 'app_customer_dashboard';
+       }
+       return $link;
     }
 }

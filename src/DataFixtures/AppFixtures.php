@@ -16,12 +16,12 @@ class AppFixtures extends Fixture
         $faker = Faker\Factory::create();
 
 
-        for($i=1; $i<=9; $i++) {
+        for($i=10; $i<=49; $i++) {
            
          $product = new Product();
          $product->setName('Product '.$i);
-         $product->setDescription($faker->text);
-         $product->setPrice(100*rand(10,100));
+         $product->setDescription($faker->text(30));
+         $product->setPrice(rand(10,100));
          $product->setStock(rand(5, 30));
          $product->setCategory($manager->getRepository(Category::class)->find((rand(3,4))));
          $manager->persist($product);
