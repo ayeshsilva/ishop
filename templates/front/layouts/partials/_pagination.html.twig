@@ -1,0 +1,42 @@
+{% if pageCount > 1 %}
+<nav>
+    {% set classAlign = (align is not defined) ? '' : align=='center' ? ' justify-content-center' : (align=='right' ? ' justify-content-end' : '') %}
+    {% set classSize = (size is not defined) ? '' : size=='large' ? ' pagination-lg' : (size=='small' ? ' pagination-sm' : '') %}
+    <ul class="pagination pagination-lg justify-content-end pagination{{ classAlign }}{{ classSize }}">
+        
+        {% for page in pagesInRange %}
+        {% if page != current %}
+        <li class="page-item">
+            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark " href="{{ path(route, query|merge({(pageParameterName): page})) }}">{{ page }}</a>
+        </li>
+        {% else %}
+        <li class="page-item ">
+            <span class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0">{{ page }}</span>
+        </li>
+        {% endif %}
+
+        {% endfor %}
+
+        {% if pageCount > endPage %}
+        {% if pageCount > (endPage + 1) %}
+        {% if pageCount > (endPage + 2) %}
+        <li class="page-item disabled">
+            <span class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark">&hellip;</span>
+        </li>
+        {% else %}
+        <li class="page-item">
+            <a class="page-link active rounded-0 mr-3 shadow-sm border-top-0 border-left-0" href="{{ path(route, query|merge({(pageParameterName): (pageCount - 1)})) }}">{{ pageCount -1 }}</a>
+        </li>
+        {% endif %}
+        {% endif %}
+        <li class="page-item">
+            <a class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" href="{{ path(route, query|merge({(pageParameterName): pageCount})) }}">{{ pageCount }}</a>
+        </li>
+        {% endif %}
+
+
+    </ul>
+
+
+</nav>
+{% endif %}

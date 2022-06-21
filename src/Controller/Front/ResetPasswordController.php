@@ -150,9 +150,8 @@ class ResetPasswordController extends AbstractController
 
         try {
             $resetToken = $this->resetPasswordHelper->generateResetToken($user);
-            dump($resetToken);
         } catch (ResetPasswordExceptionInterface $e) {
-            dd($e);
+
             // If you want to tell the user why a reset email was not sent, uncomment
             // the lines below and change the redirect to 'app_forgot_password_request'.
             // Caution: This may reveal if a user is registered or not.
@@ -165,7 +164,7 @@ class ResetPasswordController extends AbstractController
 
             return $this->redirectToRoute('app_check_email');
         }
-        dd("good");
+
         $email = (new TemplatedEmail())
             ->from(new Address('info@ishop.com', 'Reset your password'))
             ->to($user->getEmail())

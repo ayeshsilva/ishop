@@ -4,18 +4,24 @@ namespace App\Controller\Front;
 
 use App\Entity\Product;
 use App\Repository\ProductRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'home')]
-    public function index(ProductRepository $productRepository): Response
+    public function index(Request $request, ProductRepository $productRepository,  PaginatorInterface $paginator): Response
     {
 
+        $products = $paginator->paginate(
+            $productRepository->findBy([], ['id' => 'desc']),
+            $request->query->getInt('page', 1),
+            9
+        );
 
-        $products = $productRepository->findAll();
         return $this->render('front/home/index.html.twig', compact('products'));
     }
 

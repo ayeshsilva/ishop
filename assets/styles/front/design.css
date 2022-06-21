@@ -26,6 +26,9 @@ Table of contents
 --------------------------------------------- */
 
 
+a{
+    text-decoration: none;
+}
 
 
 /* Typography */
@@ -191,3 +194,6 @@ body, ul, li, p, a, label, input, div {
 @media (min-width: 1200px) {}
 
 
+a-link {
+    color: black;
+}
