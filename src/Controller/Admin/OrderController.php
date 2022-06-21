@@ -50,20 +50,7 @@ class OrderController extends AbstractController
     }
 
 
-    #[Route('/invoice/{id<\d+>}', name: 'admin_order_invoice', methods: ['GET'])]
-    public function invoice(Pdf $knpSnappyPdf, Order $order,  InvoiceManager $invoiceManager): Response
-    {
-        $invoiceCalculs = $invoiceManager->invoiceCalculView($order);
-        $html = $this->renderView('admin/order/invoice.html.twig', [
-            'order' => $order,
-            'invoice_calculs' => $invoiceCalculs
-        ]);
 
-        return new PdfResponse(
-            $knpSnappyPdf->getOutputFromHtml($html),
-            'invoice.pdf'
-        );
-    }
 
     #[Route('/_ajax/data', name: 'admin_order_ajax', methods: ['POST'])]
     public function changeStatus(Request $request, EntityManagerInterface $em): JsonResponse

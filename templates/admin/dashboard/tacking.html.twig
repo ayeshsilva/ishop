@@ -1,0 +1,134 @@
+{% extends 'front/layouts/base.html.twig' %}
+
+
+
+{% block main_title %}
+
+{% endblock %}
+
+{% block content %}
+
+<section class="bg-light">
+    <section class="container py-5">
+        <div class="row text-center pt-5 pb-3">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1">Tracking</h1>
+                <div class="container d-flex justify-content-center align-items-center">
+
+                    <div class="progresses mt-3 mb-3">
+
+
+                        <div class="steps check">
+                            <span class="font-weight-bold">Ordered</span>
+                        </div>
+
+                        <span class="line"></span>
+
+                        <div class="steps check">
+                            <span class="font-weight-bold">Shipped</span>
+                        </div>
+
+
+                        <span class="line"></span>
+
+                        <div class="steps check">
+                            <span class="font-weight-bold">On the way</span>
+                        </div>
+                        <span class="line"></span>
+
+                        <div class="steps wait">
+                            <span class="font-weight-bold">Delivered</span>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row mb-2">
+            <div class="justify-content-end">
+                <a href="{{ path('app_cart_invoice', {'id' : order.id}) }}" class="btn btn-success">invoice</a>
+            </div>
+        </div>
+
+        <div class="row ">
+
+
+            <div class="col-md-12  pb-5 ">
+                <div class="h-100 py-5 bg-white p-5 shadow">
+                    <table class="table">
+                        <tbody>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ order.id }}</td>
+                        </tr>
+                        <tr>
+                            <th>email</th>
+                            <td>{{ order.user.email }}</td>
+                        </tr>
+                        <tr>
+                            <th>firstName</th>
+                            <td>{{ order.user.firstName }}</td>
+                        </tr>
+                        <tr>
+                            <th>lastName</th>
+                            <td>{{ order.user.lastName }}</td>
+                        </tr>
+                        <tr>
+                            <th>Status</th>
+                            <td>{{ order.status }}</td>
+                        </tr>
+                        <tr>
+                            <th>CreatedAt</th>
+                            <td>{{ order.createdAt ? order.createdAt|date("F d Y g:i:sA", "Europe/Paris")  : '' }}</td>
+                        </tr>
+
+                        </tbody>
+                    </table>
+
+                    <hr>
+                    <div class="row">
+                        <table class="table table-striped">
+                            <thead>
+                            <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">product</th>
+                                <th scope="col">description</th>
+                                <th scope="col">quantity</th>
+                                <th scope="col">price</th>
+                                <th scope="col">total</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for invoice_calcul in  invoice_calculs %}
+                            {% set index = 1 %}
+                            {% for  productQuantity in invoice_calcul %}
+                                <tr>
+                                    <td>{{ index }}</td>
+                                    <td>{{ productQuantity.product }}</td>
+                                    <td>{{ productQuantity.description|u.truncate(40, '...', false) }}</td>
+                                    <td>{{ productQuantity.quantity }}</td>
+                                    <td>{{ productQuantity.price }}</td>
+                                    <td>{{ productQuantity.subtotal }}</td>
+                                </tr>
+                                {% set index = index + 1 %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        {% endfor %}
+                    </div>
+
+                    <div class="row justify-content-end">
+                        Total Due {{ invoice_calculs.total_amount }}
+                    </div>
+
+
+                </div>
+                </div>
+        </div>
+    </section>
+</section>
+
+                {% endblock %}
+

@@ -60,6 +60,18 @@ class OrderRepository extends ServiceEntityRepository
         ;
     }
 
+    public function findByEmailCustomerOrder(User $user)
+    {
+        return $this->createQueryBuilder('o')
+            //->select('*')
+            ->join('o.user', 'u')
+            ->andWhere('u.id = :user')
+            ->setParameter('user', $user->getId())
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    public function findOneBySomeField($value): ?Order
 //    {
 //        return $this->createQueryBuilder('o')

@@ -3,7 +3,7 @@
     {% set classAlign = (align is not defined) ? '' : align=='center' ? ' justify-content-center' : (align=='right' ? ' justify-content-end' : '') %}
     {% set classSize = (size is not defined) ? '' : size=='large' ? ' pagination-lg' : (size=='small' ? ' pagination-sm' : '') %}
     <ul class="pagination pagination-lg justify-content-end pagination{{ classAlign }}{{ classSize }}">
-        
+
         {% for page in pagesInRange %}
         {% if page != current %}
         <li class="page-item">

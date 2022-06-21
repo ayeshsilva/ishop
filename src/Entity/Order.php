@@ -14,6 +14,11 @@ use Doctrine\ORM\Mapping as ORM;
 class Order
 {
 
+    CONST STEP1 = 'Ordered';
+    CONST STEP2 = 'Shipped';
+    CONST STEP3 = 'On the way';
+    CONST STEP4 = 'Delivered';
+
     use Timestampable;
 
     #[ORM\Id]

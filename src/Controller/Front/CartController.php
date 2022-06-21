@@ -2,10 +2,14 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Order;
 use App\Entity\Product;
 use App\Manager\CartManager;
+use App\Manager\InvoiceManager;
 use App\Service\StripeService;
 use JetBrains\PhpStorm\NoReturn;
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,11 +24,8 @@ class CartController extends AbstractController
     #[NoReturn] #[Route('/', name: 'app_front_cart')]
     public function index(Request $request, StripeService $stripeManager): Response
     {
-
         $session = $request->getSession();
         $baskets = $session->get('basket');
-
-
 
         return $this->render('front/cart/index.html.twig', ['baskets' => $baskets]);
     }
@@ -93,8 +94,6 @@ class CartController extends AbstractController
 
     }
 
-
-
     #[Route('/checkout', name: 'front_checkout')]
     public function checkout(CartManager $cartManager)
     {
@@ -105,11 +104,25 @@ class CartController extends AbstractController
             return $this->redirectToRoute('home');
         }
 
-
         return $this->render('front/cart/checkout.html.twig', [
 
             'stripe_api_key' => $_ENV["STRIPE_API_KEY"]
         ]);
+    }
+
+    #[Route('/invoice/{id<\d+>}', name: 'app_cart_invoice', methods: ['GET'])]
+    public function invoice(Pdf $knpSnappyPdf, Order $order,  InvoiceManager $invoiceManager): Response
+    {
+        $invoiceCalculs = $invoiceManager->invoiceCalculView($order);
+        $html = $this->renderView('admin/order/invoice.html.twig', [
+            'order' => $order,
+            'invoice_calculs' => $invoiceCalculs
+        ]);
+
+        return new PdfResponse(
+            $knpSnappyPdf->getOutputFromHtml($html),
+            'invoice.pdf'
+        );
     }
 
 }

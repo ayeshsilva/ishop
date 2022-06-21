@@ -26,7 +26,7 @@ Table of contents
 --------------------------------------------- */
 
 
-a{
+a:link{
     text-decoration: none;
 }
 
@@ -194,6 +194,38 @@ body, ul, li, p, a, label, input, div {
 @media (min-width: 1200px) {}
 
 
-a-link {
+a-link:link {
+    text-decoration: none;
     color: black;
+}
+
+.progresses{
+    display: flex;
+    align-items: center;
+}
+
+.line{
+
+    width: 120px;
+    height: 6px;
+    background: #63d19e;
+}
+
+
+.steps{
+
+    display: flex;
+    background-color: #fff;
+    color: #000;
+    font-size: 14px;
+    width: 100px;
+    height: 50px;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.check {
+    background-color: #63d19e;
+    color: #fff;
 }
