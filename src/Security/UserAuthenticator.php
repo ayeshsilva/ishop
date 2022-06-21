@@ -47,8 +47,6 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
-
-
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
@@ -62,11 +60,6 @@ class UserAuthenticator extends AbstractLoginFormAuthenticator
         } else {
             return new RedirectResponse($this->urlGenerator->generate('app_check_email'));
         }
-
-
-
-
-
 
     }
 

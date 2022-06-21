@@ -32,7 +32,7 @@ class SecurityController extends AbstractController
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
 
-    #[Route(path:'/check-email', name:'app_check_email')]
+    #[Route(path:'/check-email-verification', name:'app_check_email_verification')]
     public function checkEmail(): Response
     {
         return $this->render('front/security/check-email.html.twig', []);
