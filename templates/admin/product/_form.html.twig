@@ -2,9 +2,60 @@
     <div class="col-md-6 m-auto">
         {{ form_start(form) }}
         {{ form_widget(form) }}
+
+        {% if app.request.attributes.get('_route') == 'app_admin_product_edit' %}
+            <h2>Images</h2>
+
+            {% for image in product.images %}
+                <div>
+                    <img src="{{ asset(images_directory~image.name) }}" alt="image" width="150">
+                    <a href="{{ path('app_admin_product_delete_image', {id: image.id}) }}" data-delete
+                       data-token="{{ csrf_token('delete'~image.id) }}">delete</a>
+                </div>
+            {% endfor %}
+        {% endif %}
+
         <button class="btn btn-primary">{{ button_label|default('Save') }}</button>
         {{ form_end(form) }}
     </div>
 
 </div>
 
+{% block javascript%}
+{#Don't Forget , refactoring#}
+<script>
+console.log('Silva');
+    window.onload = () => {
+
+        let links = document.querySelectorAll("[data-delete]");
+
+        for (link of links) {
+
+            link.addEventListener("click", (e) => {
+                e.preventDefault();
+
+         if(confirm("Voulez-vous supprimer cette image ?")){
+
+            fetch(link.getAttribute("href"), {
+                method: "DELETE",
+                headers: {
+                    "X-Requested-With": "XMLHttpRequest",
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({"_token": link.dataset.token})
+            }).then(res => res.json())
+           .then(res => {
+             if (res.success) {
+                link.parentElement.remove()
+             } else {
+             console.log(res.error)
+             }
+           })
+          .catch(e => console.log("Erreur : " + e));
+        }
+    })
+        }
+}
+</script>
+
+{%endblock%}

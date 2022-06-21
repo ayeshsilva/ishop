@@ -44,6 +44,15 @@
             </tbody>
         </table>
 
+        <div>
+
+            <h2>Images</h2>
+         
+            {% for image in product.images %}
+                <img src="{{ asset(images_directory~image.name) }}" alt="image" width="150">
+            {%endfor%}
+        </div>
+
         <a href="{{ path('app_admin_product_index') }}">back to list</a>
 
         <a href="{{ path('app_admin_product_edit', {'id': product.id}) }}">edit</a>

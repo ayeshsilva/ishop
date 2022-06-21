@@ -10,13 +10,6 @@ import './styles/app.scss';
 import './styles/admin/dashboard.scss';
 import './styles/front/fontawesome.css';
 
-
-
 import { Tooltip, Toast, Popover } from 'bootstrap';
 
-
-$(document).ready(function() {
-
-
-});
 

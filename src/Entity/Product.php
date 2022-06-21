@@ -8,10 +8,12 @@ use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use App\Entity\Traits\Timestampable;
 use App\Repository\ProductRepository;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\HasLifecycleCallbacks()]
+#[Vich\Uploadable]
 class Product
 {
 
@@ -49,7 +51,7 @@ class Product
     #[ORM\JoinColumn(nullable: false)]
     private $category;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class, cascade: ["persist"], orphanRemoval: true)]
     private $images;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductQuantity::class, orphanRemoval: true)]
