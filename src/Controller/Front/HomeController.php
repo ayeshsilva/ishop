@@ -28,7 +28,6 @@ class HomeController extends AbstractController
     #[Route('/shop-single/{slug}', name: 'single')]
     public function single(Product $product): Response
     {
-
         return $this->render('front/home/single.html.twig', compact('product'));
     }
 
@@ -45,4 +44,5 @@ class HomeController extends AbstractController
         return $this->render('front/home/contact.html.twig', [
         ]);
     }
+
 }

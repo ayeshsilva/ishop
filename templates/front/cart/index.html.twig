@@ -12,7 +12,7 @@
                         <div class="row">
                             <aside class="col-md-8 m-auto">
                                 <div class="card">
-                                    {% if baskets is not empty %}
+                                    {% if carts is not empty %}
                                     <div class="table-responsive">
                                         <table class="table table-borderless table-shopping-cart">
                                             <thead class="">
@@ -25,15 +25,14 @@
                                             </thead>
                                             <tbody>
 
-
-                                            {% for  key, basket in baskets %}
+                                            {% for  key, cart in carts %}
                                                 <tr>
                                                     <td>
                                                         <figure class="itemside align-items-center">
                                                             <div class="aside"><img src="" class="img-sm"></div>
                                                             <figcaption class="info"><a href="#" class="title text-dark"
-                                                                                        data-abc="true">{{ basket.product.name }}</a>
-                                                                <p class=" small">{#  basket.product.description #}</p>
+                                                                                        data-abc="true">{{ cart.product.name }}</a>
+                                                                <p class=" small">{#  cart.product.description #}</p>
                                                             </figcaption>
                                                         </figure>
                                                     </td>
@@ -45,7 +44,7 @@
                                                         </select></td>
                                                     <td>
                                                         <div class="price-wrap"><var
-                                                                    class="price">{{ basket.product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</var>
+                                                                    class="price">{{ cart.product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</var>
                                                         </div>
                                                     </td>
                                                     <td class="text-right d-none d-md-block"><a
@@ -99,12 +98,24 @@
                                     {% else %}
                                         No items
                                     {% endif %}
+
                                 </div>
                             </aside>
+
                         </div>
+                    <div class="row m-5">
+                            <p class="text-md-start">
+                                <a href="{{ path('home')}}" class="btn btn-primary">Keep Shopping</a>
+                            </p>
+
+                    </div>
                     </section>
+
                 </div>
+
             </div>
+
+
         </section>
     </section>
 

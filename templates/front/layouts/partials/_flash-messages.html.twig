@@ -1,7 +1,15 @@
 {% for label, flashes in app.session.flashbag.all %}
     {% for flash in flashes %}
-        <div class="alert text-center alert-{{ label }} alert-dismissible fade show mb-0" role="alert">
+        <div id="alert-flash-general" class="alert text-center alert-{{ label }} alert-dismissible fade show mb-0" role="alert">
             {{ flash}}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     {% endfor %}
 {% endfor %}
+
+
+
+<div   style="display: none" id="alert-flash-add-cart" class="alert text-center alert-success alert-dismissible fade fadeOut show mb-0" role="alert">
+    Product added
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>

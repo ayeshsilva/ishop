@@ -18,22 +18,34 @@ class CartManager
 
     }
 
-    public function getBasket()
+    public function addCart(Product $product)
     {
         $session = $this->request->getSession();
-        $baskets =  $session->get('basket');
+        $cart = $session->get('cart', []);
+        $cart [] = [
+            'product' => $product,
+            'quantity' => 1
+        ];
 
-        return $baskets;
+        $session->set('cart', $cart);
+    }
+
+    public function getCart()
+    {
+        $session = $this->request->getSession();
+        $carts =  $session->get('cart');
+
+        return $carts;
     }
 
     public function calculateTotal()
     {
-        $baskets = $this->getBasket();
+        $carts = $this->getCart();
 
         $total = 0;
-        foreach ($baskets as $basket)
+        foreach ($carts as $cart)
         {
-            $total += $basket['quantity'] * $basket["product"]->getPrice();
+            $total += $cart['quantity'] * $cart["product"]->getPrice();
         }
         return $total;
     }
@@ -47,16 +59,16 @@ class CartManager
         $this->em->persist($order);
         $this->em->flush();
 
-        $baskets = $this->getBasket();
+        $carts = $this->getCart();
 
-        foreach ($baskets as $basket)
+        foreach ($carts as $cart)
         {
-            $product =  $this->em->getRepository(Product::class)->find($basket["product"]);
+            $product =  $this->em->getRepository(Product::class)->find($cart["product"]);
             $productQuantity = new ProductQuantity();
             $productQuantity->setProduct($product);
             $productQuantity->setOrders($order);
             $productQuantity->setPrice($product->getPrice());
-            $productQuantity->setQuantity($basket["quantity"] );
+            $productQuantity->setQuantity($cart["quantity"] );
             $this->em->persist($productQuantity);
             $this->em->flush();
         }

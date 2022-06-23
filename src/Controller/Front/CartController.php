@@ -6,6 +6,8 @@ use App\Entity\Order;
 use App\Entity\Product;
 use App\Manager\CartManager;
 use App\Manager\InvoiceManager;
+use App\Repository\ProductRepository;
+use App\Service\CartService;
 use App\Service\StripeService;
 use JetBrains\PhpStorm\NoReturn;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
@@ -15,45 +17,50 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
 
+
+/**
+ *
+ */
 #[Route('/cart')]
 class CartController extends AbstractController
 {
 
+    /**
+     * @param CartManager $cartManager
+     * @return Response
+     */
     #[NoReturn] #[Route('/', name: 'app_front_cart')]
-    public function index(Request $request, StripeService $stripeManager): Response
+    public function index( CartManager $cartManager): Response
     {
-        $session = $request->getSession();
-        $baskets = $session->get('basket');
+        $carts =  $cartManager->getCart();
 
-        return $this->render('front/cart/index.html.twig', ['baskets' => $baskets]);
+        return $this->render('front/cart/index.html.twig', ['carts' => $carts]);
     }
 
 
+    /**
+     * @param Product $product
+     * @param CartManager $cartManager
+     * @return Response
+     */
     #[Route('/add/{id}', name: 'app_front_cart_add')]
-    public function add(Product $product, Request $request, Security $security): Response
+    public function add(Product $product, CartManager $cartManager): Response
     {
-
-        $session = $request->getSession();
-
-        $basket = $session->get('basket', []);
-        $basket [] = [
-            'product' => $product,
-            'quantity' => 1
-        ];
-
-        $session->set('basket', $basket);
+        $cartManager->addCart($product);
 
         return $this->redirectToRoute('app_front_cart');
     }
 
+    /**
+     * @throws \Stripe\Exception\ApiErrorException
+     */
     #[Route('/pay', name: 'app_front_cart_pay')]
     public function pay(StripeService $stripeManager, CartManager $cartManager): JsonResponse
     {
-        $baskets = $cartManager->getBasket();
+        $carts = $cartManager->getCart();
 
-        if (empty($baskets)) {
+        if (empty($carts)) {
             return $this->redirectToRoute('home');
         }
 
@@ -64,43 +71,55 @@ class CartController extends AbstractController
     }
 
 
+    /**
+     * @param Request $request
+     * @param StripeService $stripeService
+     * @param CartManager $cartManager
+     * @return Response
+     */
     #[Route('/success', name: 'app_front_cart_success')]
     public function success(Request $request,StripeService $stripeService, CartManager $cartManager): Response
     {
 
         $session = $request->getSession( );
-
         $cartManager->createOrder($this->getUser());
-
-        //$mailer->sendSuccessCart($this->getUser());
-
-        $session->remove('basket');
+        
+        $session->remove('cart');
 
         return $this->render('front/cart/success.html.twig', [
 
         ]);
     }
 
+    /**
+     * @param $id
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     #[Route('/delete/{id}', name: 'app_front_cart_remove')]
     public function delete($id, Request $request)
     {
         $session = $request->getSession();
-        $baskets = $session->get('basket');
-        unset($baskets[$id]);
+        $carts = $session->get('cart');
+        unset($carts[$id]);
 
-        $session->set('basket', $baskets);
+        $session->set('cart', $carts);
 
         return $this->redirectToRoute('app_front_cart');
 
     }
 
+    /**
+     * @param CartManager $cartManager
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     #[Route('/checkout', name: 'front_checkout')]
     public function checkout(CartManager $cartManager)
     {
 
-        $baskets = $cartManager->getBasket();
+        $carts = $cartManager->getCart();
 
-        if (empty($baskets)) {
+        if (empty($carts)) {
             return $this->redirectToRoute('home');
         }
 
@@ -110,6 +129,12 @@ class CartController extends AbstractController
         ]);
     }
 
+    /**
+     * @param Pdf $knpSnappyPdf
+     * @param Order $order
+     * @param InvoiceManager $invoiceManager
+     * @return Response
+     */
     #[Route('/invoice/{id<\d+>}', name: 'app_cart_invoice', methods: ['GET'])]
     public function invoice(Pdf $knpSnappyPdf, Order $order,  InvoiceManager $invoiceManager): Response
     {
@@ -123,6 +148,32 @@ class CartController extends AbstractController
             $knpSnappyPdf->getOutputFromHtml($html),
             'invoice.pdf'
         );
+    }
+
+    /**
+     * @param Request $request
+     * @param ProductRepository $productRepository
+     * @return JsonResponse
+     */
+    #[Route('/ajax/add-cart',name:'app_cart_ajax_add_cart', methods: ['GET','POST'])]
+    public function ajaxAddCart(Request $request, ProductRepository $productRepository, CartManager $cartManager) : JsonResponse
+    {
+        $data = json_decode($request->getContent(), true);
+
+        if (!is_null($data)) {
+
+            $product = $productRepository->find($data['id']);
+            $cartManager->addCart($product);
+
+            return new JsonResponse(["success" => "OK"], 200);
+        }
+
+        return new JsonResponse(["error" => ""], 400);
+
+
+
+
+
     }
 
 }

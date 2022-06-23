@@ -134,11 +134,8 @@ class ProductController extends AbstractController
             try {
                 $em->flush();
             }catch (\Exception $e) {
-                dump($e);
                 return new JsonResponse(['error' => $e], status: 400);
             }
-
-
 
             return new JsonResponse(['success' => 1]);
         }
