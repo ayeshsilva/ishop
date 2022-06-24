@@ -8,7 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContactRepository::class)]
 #[ORM\Table(name: '`contact`')]
-#[ORM\Index(columns: ['name', 'email', 'subject', 'message'],  flags: ['fulltext'])]
+#[ORM\Index(columns: ['name', 'email', 'subject', 'message'], flags: ['fulltext'])]
+#[ORM\HasLifecycleCallbacks()]
 class Contact
 {
     use Timestampable;

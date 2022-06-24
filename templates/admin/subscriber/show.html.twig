@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<title>Subscriber</title>
+
+{% block body %}
+    <h1>Subscriber</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ subscriber.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ subscriber.email }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ subscriber.createdAt ? subscriber.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ subscriber.updatedAt ? subscriber.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_subscriber_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_subscriber_edit', {'id': subscriber.id}) }}">edit</a>
+
+    {{ include('admin/subscriber/_delete_form.html.twig') }}
+{% endblock %}
