@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Contact;
 use App\Entity\Product;
 use App\Form\ContactType;
+use App\Repository\CategoryRepository;
 use App\Repository\ContactRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManager;
@@ -24,7 +25,7 @@ class HomeController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'home')]
-    public function index(Request $request, ProductRepository $productRepository, PaginatorInterface $paginator): Response
+    public function index(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator): Response
     {
         $products = $paginator->paginate(
             $productRepository->findBy([], ['id' => 'desc']),
@@ -32,7 +33,9 @@ class HomeController extends AbstractController
             9
         );
 
-        return $this->render('front/home/index.html.twig', compact('products'));
+        $categories = $categoryRepository->findBy([], ['id' => 'desc']);
+
+        return $this->render('front/home/index.html.twig', compact('products', 'categories'));
     }
 
     /**
@@ -42,6 +45,7 @@ class HomeController extends AbstractController
     #[Route('/shop-single/{slug}', name: 'single')]
     public function single(Product $product): Response
     {
+
         return $this->render('front/home/single.html.twig', compact('product'));
     }
 

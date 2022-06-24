@@ -8,9 +8,11 @@
             <div class="row">
                 <div class="col-lg-5 mt-5">
                     <div class="card mb-3">
-                        <img class="card-img img-fluid" src="{{ asset('img/product_single_10.jpg') }}"
+                        <img class="card-img img-fluid" src="{{ asset(images_product~product.defaultImage)  | imagine_filter('mainImg')  }}"
                              alt="Card image cap" id="product-detail">
                     </div>
+
+                    {% if product.images is not null %}
                     <div class="row">
                         <!--Start Controls-->
                         <div class="col-1 align-self-center">
@@ -29,86 +31,20 @@
                                 <!--First slide-->
                                 <div class="carousel-item active">
                                     <div class="row">
+                                        {% for image in product.images %}
                                         <div class="col-4">
                                             <a href="#">
                                                 <img class="card-img img-fluid"
-                                                     src="{{ asset('img/product_single_01.jpg') }}"
+                                                     src="{{ asset(images_directory~image.name) | imagine_filter('mainImg')  }}"
                                                      alt="Product Image 1">
                                             </a>
                                         </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid"
-                                                     src="{{ asset('img/product_single_02.jpg') }}"
-                                                     alt="Product Image 2">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid"
-                                                     src="{{ asset('img/product_single_03.jpg') }}"
-                                                     alt="Product Image 3">
-                                            </a>
-                                        </div>
+                                        {%endfor%}
+
                                     </div>
                                 </div>
                                 <!--/.First slide-->
 
-                                <!--Second slide-->
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid"
-                                                     src="{{ asset('img/product_single_04.jpg') }}"
-                                                     alt="Product Image 4">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid"
-                                                     src="{{ asset('img/product_single_05.jpg') }}"
-                                                     alt="Product Image 5">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid"
-                                                     src="{{ asset('img/product_single_06.jpg') }}"
-                                                     alt="Product Image 6">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/.Second slide-->
-
-                                <!--Third slide-->
-                                <div class="carousel-item">
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid"
-                                                     src="{{ asset('img/product_single_07.jpg') }}"
-                                                     alt="Product Image 7">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid"
-                                                     src="{{ asset('img/product_single_08.jpg') }}"
-                                                     alt="Product Image 8">
-                                            </a>
-                                        </div>
-                                        <div class="col-4">
-                                            <a href="#">
-                                                <img class="card-img img-fluid"
-                                                     src="{{ asset('img/product_single_09.jpg') }}"
-                                                     alt="Product Image 9">
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <!--/.Third slide-->
                             </div>
                             <!--End Slides-->
                         </div>
@@ -122,6 +58,7 @@
                         </div>
                         <!--End Controls-->
                     </div>
+                    {%endif%}
                 </div>
                 <!-- col end -->
                 <div class="col-lg-7 mt-5">

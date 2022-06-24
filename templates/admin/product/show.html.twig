@@ -34,6 +34,10 @@
                 <td>{{ product.slug }}</td>
             </tr>
             <tr>
+                <th>Image Default</th>
+                <td> <img src="{{ asset(images_product~product.defaultImage) | imagine_filter('homeImg')  }}" alt="image" ></td>
+            </tr>
+            <tr>
                 <th>CreatedAt</th>
                 <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
@@ -49,7 +53,7 @@
             <h2>Images</h2>
 
             {% for image in product.images %}
-                <img src="{{ asset(images_directory~image.name) }}" alt="image" width="150">
+                <img src="{{ asset(images_directory~image.name) | imagine_filter('my_thumb')  }}" alt="image" >
             {%endfor%}
         </div>
 

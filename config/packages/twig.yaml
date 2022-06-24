@@ -4,6 +4,7 @@ twig:
 
     globals:
         images_directory: '/uploads/'
+        images_product: '/images/products/'
 
 when@test:
     twig:

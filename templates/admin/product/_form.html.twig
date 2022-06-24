@@ -7,9 +7,9 @@
             <h2>Images</h2>
 
             {% for image in product.images %}
-                <div>
-                    <img src="{{ asset(images_directory~image.name) }}" alt="image" width="150">
-                    <a href="{{ path('app_admin_product_delete_image', {id: image.id}) }}" data-delete
+                <div class="mt-1">
+                    <img src="{{ asset(images_directory~image.name) | imagine_filter('my_thumb')  }}" alt="image" >
+                    <a  class="btn btn-danger" href="{{ path('app_admin_product_delete_image', {id: image.id}) }}" data-delete
                        data-token="{{ csrf_token('delete'~image.id) }}">delete</a>
                 </div>
             {% endfor %}

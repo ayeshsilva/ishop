@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 
 class ProductType extends AbstractType
@@ -26,6 +27,17 @@ class ProductType extends AbstractType
                 'placeholder' => 'Select category',
                 'class' => Category::class,
                 'choice_label' => 'name',
+
+            ])
+            ->add('imageFile', VichImageType::class, [
+                'label' => 'default Image',
+                'required' => true,
+                'allow_delete' => false,
+                'delete_label' => false,
+                'download_label' => false,
+                'download_uri' => true,
+                'image_uri' => true,
+                'imagine_pattern' => 'my_thumb',
 
             ])
             ->add('images', FileType::class, [
