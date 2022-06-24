@@ -19,6 +19,9 @@ use Symfony\Component\Security\Core\User\PasswordUpgraderInterface;
  */
 class UserRepository extends ServiceEntityRepository implements PasswordUpgraderInterface
 {
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, User::class);
@@ -56,20 +59,33 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $this->add($user, true);
     }
 
-//    /**
-//     * @return User[] Returns an array of User objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return User[] Returns an array of User objects
+     */
+    public function getCustomers(): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere("JSON_CONTAINS(u.roles, :role) = 1")
+            ->setParameter('role', '"ROLE_CUSTOMER"')
+            ->orderBy('u.id', 'desc')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * @return User[] Returns an array of User objects
+     */
+    public function findByCustomerEmail($email): array
+    {
+        return $this->createQueryBuilder('u')
+            ->andWhere("u.email like :email")
+            ->setParameter('email', '%'.$email.'%')
+            ->orderBy('u.id', 'desc')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
 
 //    public function findOneBySomeField($value): ?User
 //    {
