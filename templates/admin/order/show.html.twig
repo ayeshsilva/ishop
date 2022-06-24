@@ -30,7 +30,9 @@
             </tr>
             <tr>
                 <th>Status</th>
-                <td>{{ order.status }}</td>
+                <td>
+                   {% include 'admin/order/partials/_select-order-step.html.twig'%}
+                </td>
             </tr>
             <tr>
                 <th>CreatedAt</th>
@@ -41,47 +43,51 @@
         </table>
 
         <div class="row">
-        <table class="table table-striped">
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">product</th>
-            <th scope="col">description</th>
-            <th scope="col">quantity</th>
-            <th scope="col">price</th>
-            <th scope="col">total</th>
-        </tr>
-        </thead>
-        <tbody>
-        {% for invoice_calcul in  invoice_calculs %}
-            {% set index = 1 %}
-            {% for  productQuantity in invoice_calcul %}
+            <table class="table table-striped">
+                <thead>
                 <tr>
-                    <td>{{ index }}</td>
-                    <td>{{ productQuantity.product }}</td>
-                    <td>{{ productQuantity.description|u.truncate(40, '...', false) }}</td>
-                    <td>{{ productQuantity.quantity }}</td>
-                    <td>{{ productQuantity.price }}</td>
-                    <td>{{ productQuantity.subtotal }}</td>
+                    <th scope="col">#</th>
+                    <th scope="col">product</th>
+                    <th scope="col">description</th>
+                    <th scope="col">quantity</th>
+                    <th scope="col">price</th>
+                    <th scope="col">total</th>
                 </tr>
-                {% set index = index + 1 %}
-            {% endfor %}
-            </tbody>
+                </thead>
+                <tbody>
+                {% for invoice_calcul in  invoice_calculs %}
+                {% set index = 1 %}
+                {% for  productQuantity in invoice_calcul %}
+                    <tr>
+                        <td>{{ index }}</td>
+                        <td>{{ productQuantity.product }}</td>
+                        <td>{{ productQuantity.description|u.truncate(40, '...', false) }}</td>
+                        <td>{{ productQuantity.quantity }}</td>
+                        <td>{{ productQuantity.price }}</td>
+                        <td>{{ productQuantity.subtotal }}</td>
+                    </tr>
+                    {% set index = index + 1 %}
+                {% endfor %}
+                </tbody>
             </table>
 
-            </div>
-
-            <div>
-                Total Due {{ invoice_calculs.total_amount }}
-
-            </div>
+        </div>
+        <div>
+            Total Due {{ invoice_calculs.total_amount }}
+        </div>
 
         {% endfor %}
-
 
         <a href="{{ path('app_admin_order_index') }}">back to list</a>
 
 
-
-
     {% endblock %}
+
+
+  {% block javascripts %}
+      {{ parent() }}
+      <script >
+          {% include 'admin/order/js/select-order-step.js.twig' %}
+      </script>
+
+  {% endblock %}

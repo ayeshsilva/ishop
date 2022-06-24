@@ -1,0 +1,6 @@
+<select name="step" class="form-control" id="step">
+    {% for step in order.step %}
+        <option value="{{ step }}"
+                {% if step == order.status %}selected{% endif %}>{{ step }}</option>
+    {% endfor %}
+</select>

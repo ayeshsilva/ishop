@@ -6,9 +6,7 @@ use App\Entity\Order;
 use App\Manager\InvoiceManager;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Component\Pager\PaginatorInterface;
-use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,15 +16,20 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/order')]
 class OrderController extends AbstractController
 {
+    /**
+     * @param Request $request
+     * @param OrderRepository $orderRepository
+     * @param PaginatorInterface $paginator
+     * @return Response
+     */
     #[Route('/', name: 'app_admin_order_index', methods: ['GET'])]
     public function index(Request $request, OrderRepository $orderRepository, PaginatorInterface $paginator): Response
     {
         $orders = $paginator->paginate(
-                $orderRepository->findBy([], ['id'=>'desc']),
-                $request->query->getInt('page', 1),
-                10
-            );
-
+            $orderRepository->findBy([], ['id' => 'desc']),
+            $request->query->getInt('page', 1),
+            10
+        );
 
         return $this->render('admin/order/index.html.twig', [
             'orders' => $orders,
@@ -50,22 +53,24 @@ class OrderController extends AbstractController
     }
 
 
-
-
+    /**
+     * @param Request $request
+     * @param EntityManagerInterface $em
+     * @return JsonResponse
+     */
     #[Route('/_ajax/data', name: 'admin_order_ajax', methods: ['POST'])]
     public function changeStatus(Request $request, EntityManagerInterface $em): JsonResponse
     {
-        $id = $request->request->get('id');
-        $status = $request->request->get('status');
+        $data = json_decode($request->getContent(), true);
 
-        $order = $em->getRepository(Order::class)->find($id);
+        if (!is_null($data)) {
 
-        $order->setStatus($status);
-        $em->persist($order);
-        $em->flush();
+            $order = $em->getRepository(Order::class)->find($data['id']);
+            $order->setStatus($data['step']);
+            $em->flush();
+            return new JsonResponse(["success" => "OK"], 200);
+        }
 
-        return new JsonResponse(["ok"]);
+        return new JsonResponse(["error" => "error"], 400);
     }
-
-
 }

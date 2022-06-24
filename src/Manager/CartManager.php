@@ -12,13 +12,21 @@ class CartManager
 {
 
 
-
+    /**
+     * @param RequestStack $request
+     * @param EntityManagerInterface $em
+     */
     public function __construct(private  RequestStack $request, private  EntityManagerInterface $em)
     {
 
     }
 
-    public function addCart(Product $product, $quantity = 1)
+    /**
+     * @param Product $product
+     * @param int $quantity
+     * @return void
+     */
+    public function addCart(Product $product, int $quantity = 1): void
     {
         $session = $this->request->getSession();
         $cart = $session->get('cart', []);
@@ -30,7 +38,10 @@ class CartManager
         $session->set('cart', $cart);
     }
 
-    public function getCart()
+    /**
+     * @return mixed
+     */
+    public function getCart(): mixed
     {
         $session = $this->request->getSession();
         $carts =  $session->get('cart');
@@ -38,7 +49,10 @@ class CartManager
         return $carts;
     }
 
-    public function calculateTotal()
+    /**
+     * @return float|int
+     */
+    public function calculateTotal(): float|int
     {
         $carts = $this->getCart();
 
@@ -50,7 +64,11 @@ class CartManager
         return $total;
     }
 
-    public function createOrder($customer)
+    /**
+     * @param $customer
+     * @return void
+     */
+    public function createOrder($customer): void
     {
         $order = new Order();
         $order->setUser($customer);

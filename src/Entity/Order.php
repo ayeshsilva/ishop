@@ -14,10 +14,10 @@ use Doctrine\ORM\Mapping as ORM;
 class Order
 {
 
-    CONST STEP1 = 'Ordered';
-    CONST STEP2 = 'Shipped';
-    CONST STEP3 = 'On the way';
-    CONST STEP4 = 'Delivered';
+    CONST STEP1 = 'ordered';
+    CONST STEP2 = 'shipped';
+    CONST STEP3 = 'on the way';
+    CONST STEP4 = 'delivered';
 
     use Timestampable;
 
@@ -98,5 +98,16 @@ class Order
         }
 
         return $this;
+    }
+
+
+    public function step()
+    {
+        return [
+            self::STEP1,
+            self::STEP2,
+            self::STEP3,
+            self::STEP4,
+        ];
     }
 }

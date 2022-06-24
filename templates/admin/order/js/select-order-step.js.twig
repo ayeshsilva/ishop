@@ -1,0 +1,30 @@
+window.onload = () => {
+    function updateStep() {
+        const select = document.getElementById('step');
+        select.addEventListener('change', (e) => {
+
+            const option = select.options[select.selectedIndex];
+            const value = option.value;
+
+            fetch('{{ path('admin_order_ajax') }}', {
+                method: "POST",
+                body: JSON.stringify({
+                    'id': {{ order.id }},
+                    'step': value
+                })
+
+            }).then(
+                res => {
+                    res.json();
+                }
+            ).then(
+                res => {
+                    window.location.href = "{{ path('app_admin_order_show', {'id': order.id }) }}"
+                }
+            ).catch(e => console.log("Erreur : " + e));
+
+        });
+    }
+
+    updateStep();
+}

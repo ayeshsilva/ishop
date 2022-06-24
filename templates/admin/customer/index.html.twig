@@ -1,0 +1,55 @@
+{% extends 'admin/layouts/admin.html.twig' %}
+
+{% block title %}Customer index{% endblock %}
+
+
+    {% block main_title %}List customers  ({{ users.totalItemCount}}){% endblock %}
+    {% block content %}
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+
+
+                <th>IsVerified</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Address</th>
+                <th>Zipcode</th>
+                <th>City</th>
+                <th>Phone</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+
+                <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
+                <td>{{ user.firstName }}</td>
+                <td>{{ user.lastName }}</td>
+                <td>{{ user.address }}</td>
+                <td>{{ user.zipcode }}</td>
+                <td>{{ user.city }}</td>
+                <td>{{ user.phone }}</td>
+                <td>
+                    <a  class="btn btn-warning" href="{{ path('app_admin_customer_show', {'id': user.id}) }}">show</a>
+                    <a class="btn btn-primary" href="{{ path('app_admin_customer_edit', {'id': user.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+
+        <div class="d-flex justify-content-center">
+            {{ knp_pagination_render(users, 'admin/layouts/partials/_pagination.html.twig') }}
+        </div>
+{% endblock %}

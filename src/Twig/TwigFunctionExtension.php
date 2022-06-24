@@ -41,11 +41,11 @@ class TwigFunctionExtension extends AbstractExtension
        return $link;
     }
 
-    public function countCart()
+    public function countCart(): int
     {
          $cart = $this->cartManager->getCart();
 
-         return count($cart);
+         return $cart?count($cart):0;
 
     }
 }

@@ -12,8 +12,10 @@ use App\Service\StripeService;
 use JetBrains\PhpStorm\NoReturn;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
+use Stripe\Exception\ApiErrorException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -55,10 +57,13 @@ class CartController extends AbstractController
     }
 
     /**
-     * @throws \Stripe\Exception\ApiErrorException
+     * @param StripeService $stripeManager
+     * @param CartManager $cartManager
+     * @return RedirectResponse|JsonResponse
+     * @throws ApiErrorException
      */
     #[Route('/pay', name: 'app_front_cart_pay')]
-    public function pay(StripeService $stripeManager, CartManager $cartManager): JsonResponse
+    public function pay(StripeService $stripeManager, CartManager $cartManager): RedirectResponse|JsonResponse
     {
         $carts = $cartManager->getCart();
 
@@ -96,10 +101,10 @@ class CartController extends AbstractController
     /**
      * @param $id
      * @param Request $request
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     #[Route('/delete/{id}', name: 'app_front_cart_remove')]
-    public function delete($id, Request $request)
+    public function delete($id, Request $request): RedirectResponse
     {
         $session = $request->getSession();
         $carts = $session->get('cart');
@@ -113,12 +118,11 @@ class CartController extends AbstractController
 
     /**
      * @param CartManager $cartManager
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     * @return RedirectResponse|Response
      */
     #[Route('/checkout', name: 'front_checkout')]
-    public function checkout(CartManager $cartManager)
+    public function checkout(CartManager $cartManager): RedirectResponse|Response
     {
-
         $carts = $cartManager->getCart();
 
         if (empty($carts)) {
@@ -155,13 +159,13 @@ class CartController extends AbstractController
     /**
      * @param Request $request
      * @param ProductRepository $productRepository
+     * @param CartManager $cartManager
      * @return JsonResponse
      */
     #[Route('/ajax/add-cart',name:'app_cart_ajax_add_cart', methods: ['GET','POST'])]
     public function ajaxAddCart(Request $request, ProductRepository $productRepository, CartManager $cartManager) : JsonResponse
     {
         $data = json_decode($request->getContent(), true);
-
 
         if (!is_null($data)) {
 
@@ -172,10 +176,6 @@ class CartController extends AbstractController
         }
 
         return new JsonResponse(["error" => ""], 400);
-
-
-
-
 
     }
 
