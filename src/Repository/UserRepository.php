@@ -69,22 +69,22 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('role', '"ROLE_CUSTOMER"')
             ->orderBy('u.id', 'desc')
             ->getQuery()
-            ->getResult()
-            ;
+            ->getResult();
     }
 
     /**
      * @return User[] Returns an array of User objects
      */
-    public function findByCustomerEmail($email): array
+    public function findCustomer($words = null): array
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere("u.email like :email")
-            ->setParameter('email', '%'.$email.'%')
-            ->orderBy('u.id', 'desc')
-            ->getQuery()
-            ->getResult()
-            ;
+        $query = $this->createQueryBuilder('u');
+             if ($words != null) {
+                 $query->andWhere('MATCH_AGAINST(u.email, u.firstName, u.lastName) AGAINST (:words boolean)>0')
+                     ->setParameter('words', $words);
+             }
+            $query->orderBy('u.id', 'desc');
+            return $query->getQuery()
+                ->getResult();
     }
 
 //    public function findOneBySomeField($value): ?User

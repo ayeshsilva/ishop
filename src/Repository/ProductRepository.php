@@ -50,6 +50,18 @@ class ProductRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function search($words = null): array
+    {
+        $query = $this->createQueryBuilder('p');
+        if ($words != null) {
+            $query->andWhere('MATCH_AGAINST(p.name, p.description) AGAINST (:words boolean)>0')
+                ->setParameter('words', $words);
+        }
+        $query->orderBy('p.id', 'desc');
+        return $query->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Product[] Returns an array of Product objects
 //     */

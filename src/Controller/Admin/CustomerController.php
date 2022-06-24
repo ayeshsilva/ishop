@@ -3,7 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\User;
-use App\Form\CustomerType;
+use App\Form\SearchFormType;
 use App\Form\UserType;
 use App\Repository\UserRepository;
 use Knp\Component\Pager\PaginatorInterface;
@@ -24,20 +24,17 @@ class CustomerController extends AbstractController
             10
         );
 
-        $form = $this->createForm(CustomerType::class);
+        $form = $this->createForm(SearchFormType::class);
         $search = $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
 
-
-
             $users = $paginator->paginate(
-                $userRepository->findByCustomerEmail(
+                $userRepository->findCustomer(
                     $search->get('words')->getData(),
                 ),
                 $request->query->getInt('page', 1),
                 10
             );
-
         }
 
         return $this->render('admin/customer/index.html.twig', [

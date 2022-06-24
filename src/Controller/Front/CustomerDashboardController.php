@@ -42,9 +42,13 @@ class CustomerDashboardController extends AbstractController
         $invoiceCalculs = $invoiceManager->invoiceCalculView($order);
 
 
+        $positionCurrent = array_keys( $order->step(), $order->getStatus());
+
+
         return $this->render('admin/dashboard/tacking.html.twig', [
             'order' => $order,
-            'invoice_calculs' => $invoiceCalculs
+            'invoice_calculs' => $invoiceCalculs,
+            'position_current' => $positionCurrent
         ]);
     }
 

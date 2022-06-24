@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Image;
 use App\Entity\Product;
 use App\Form\ProductType;
+use App\Form\SearchFormType;
 use App\Repository\ImageRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -18,19 +19,31 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/product')]
 class ProductController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_product_index', methods: ['GET'])]
+    #[Route('/', name: 'app_admin_product_index', methods: ['GET', 'POST'])]
     public function index(Request $request, ProductRepository $productRepository, PaginatorInterface $paginator): Response
     {
-
         $products = $paginator->paginate(
             $productRepository->findBy([], ['id' => 'desc']),
             $request->query->getInt('page', 1),
             10
         );
 
+        $form = $this->createForm(SearchFormType::class);
+        $search = $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            $products = $paginator->paginate(
+                $productRepository->search(
+                    $search->get('words')->getData(),
+                ),
+                $request->query->getInt('page', 1),
+                10
+            );
+        }
 
         return $this->render('admin/product/index.html.twig', [
             'products' => $products,
+            'form' => $form->createView()
         ]);
     }
 

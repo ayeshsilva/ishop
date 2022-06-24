@@ -5,6 +5,9 @@
 
 
     {% block main_title %}List category ({{ categories.totalItemCount }}){% endblock %}
+  {% block search %}
+      {{ form(form) }}
+  {% endblock %}
     {% block content %}
         <div class="d-flex justify-content-start mb-1">
             <a class="btn btn-primary" href="{{ path('app_admin_category_new') }}">Create new</a>
@@ -29,8 +32,8 @@
                     <td>{{ category.createdAt ? category.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ category.updatedAt ? category.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>
-                        <a href="{{ path('app_admin_category_show', {'id': category.id}) }}">show</a>
-                        <a href="{{ path('app_admin_category_edit', {'id': category.id}) }}">edit</a>
+                        <a   class="btn btn-warning" href="{{ path('app_admin_category_show', {'id': category.id}) }}">show</a>
+                        <a class="btn btn-primary" href="{{ path('app_admin_category_edit', {'id': category.id}) }}">edit</a>
                     </td>
                 </tr>
             {% else %}

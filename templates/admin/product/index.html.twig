@@ -4,7 +4,10 @@
 
 
 
-    {% block main_title %}Product index ({{ products.totalItemCount}}){% endblock %}
+    {% block main_title %}Product index ({{ products.totalItemCount }}){% endblock %}
+    {% block search %}
+        {{ form(form) }}
+    {% endblock %}
 
     {% block content %}
         <div class="row mb-4">
@@ -38,8 +41,10 @@
                     <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                     <td>
-                        <a class="btn btn-warning" href="{{ path('app_admin_product_show', {'id': product.id}) }}">show</a>
-                        <a class="btn btn-primary" href="{{ path('app_admin_product_edit', {'id': product.id}) }}">edit</a>
+                        <a class="btn btn-warning"
+                           href="{{ path('app_admin_product_show', {'id': product.id}) }}">show</a>
+                        <a class="btn btn-primary"
+                           href="{{ path('app_admin_product_edit', {'id': product.id}) }}">edit</a>
                     </td>
                 </tr>
             {% else %}

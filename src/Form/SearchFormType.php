@@ -2,14 +2,14 @@
 
 namespace App\Form;
 
-use App\Entity\User;
+
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CustomerType extends AbstractType
+class SearchFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -19,7 +19,7 @@ class CustomerType extends AbstractType
                 'mapped' => false,
                 'attr' => [
                     'class' => 'form-control ',
-                    'placeholder' => 'Enter Email'
+                    'placeholder' => 'Enter words'
                 ],
             ])
             ->add('Search', SubmitType::class, [
@@ -33,7 +33,7 @@ class CustomerType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => User::class,
+            'data_class' => null,
         ]);
     }
 }

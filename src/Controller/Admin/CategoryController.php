@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Category;
 use App\Form\CategoryType;
+use App\Form\SearchFormType;
 use App\Repository\CategoryRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/category')]
 class CategoryController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_category_index', methods: ['GET'])]
+    #[Route('/', name: 'app_admin_category_index', methods: ['GET', 'POST'])]
     public function index(Request $request, CategoryRepository $categoryRepository, PaginatorInterface $paginator): Response
     {
 
@@ -24,8 +25,22 @@ class CategoryController extends AbstractController
             10
         );
 
+        $form = $this->createForm(SearchFormType::class);
+        $search = $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            $categories = $paginator->paginate(
+                $categoryRepository->search(
+                    $search->get('words')->getData(),
+                ),
+                $request->query->getInt('page', 1),
+                10
+            );
+        }
+
         return $this->render('admin/category/index.html.twig', [
             'categories' => $categories,
+            'form' => $form->createView()
         ]);
     }
 

@@ -12,15 +12,15 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\Table(name: '`product`')]
 #[ORM\HasLifecycleCallbacks()]
 #[Vich\Uploadable]
+#[ORM\Index(columns: ['name', 'description'],  flags: ['fulltext'])]
 class Product
 {
-
-    const DEVICE = 'eur';
-
     use Timestampable;
 
+    const DEVICE = 'eur';
     
     #[ORM\Id]
     #[ORM\GeneratedValue]
