@@ -35,6 +35,8 @@ class CartController extends AbstractController
     {
         $carts =  $cartManager->getCart();
 
+
+
         return $this->render('front/cart/index.html.twig', ['carts' => $carts]);
     }
 
@@ -160,10 +162,11 @@ class CartController extends AbstractController
     {
         $data = json_decode($request->getContent(), true);
 
+
         if (!is_null($data)) {
 
             $product = $productRepository->find($data['id']);
-            $cartManager->addCart($product);
+            $cartManager->addCart($product, $data['quantity'] );
 
             return new JsonResponse(["success" => "OK"], 200);
         }

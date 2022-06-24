@@ -1,0 +1,73 @@
+window.onload = () => {
+
+    const loader = document.querySelector(".loading");
+
+    const displayLoading = () => {
+        loader.classList.add("display");
+        // to stop loading after some time
+        setTimeout(() => {
+            loader.classList.remove("display");
+        }, 10000);
+    }
+    const hideLoading = () => {
+        loader.classList.remove("display");
+    }
+
+    const addCarts = document.querySelectorAll("[data-addcart]");
+    const quantityValue = document.getElementById('var-value');
+    const cartAdd = document.getElementById('cart-add');
+
+    {% if app.request.attributes.get('_route') == 'home' %}
+    for (let addCart of addCarts) {
+        addCart.addEventListener("click", (e) => {
+            displayLoading();
+            e.preventDefault();
+            const productId = addCart.getAttribute('data-addcart');
+
+            fetch('{{ path('app_cart_ajax_add_cart') }}', {
+                method: "POST",
+                body: JSON.stringify({
+                    'id': productId,
+                    'quantity': 1
+                })
+            }).then(
+                res => {
+                    res.json();
+                }
+            ).then(
+                res => {
+                    hideLoading();
+                    window.location.href = {{ path('app_front_cart') }}
+                }
+            ).catch(e => console.log("Erreur : " + e));
+        });
+    }
+    {% endif %}
+
+    {% if app.request.attributes.get('_route') == 'single' %}
+    cartAdd.addEventListener('click', (e) => {
+        displayLoading();
+        e.preventDefault();
+        const quantity = quantityValue.textContent;
+
+        fetch('{{ path('app_cart_ajax_add_cart') }}', {
+            method: "POST",
+            body: JSON.stringify({
+                'id': {{ product.id }},
+                'quantity': quantity
+            })
+
+        }).then(
+            res => {
+                res.json();
+            }
+        ).then(
+            res => {
+                hideLoading();
+                window.location.href = {{ path('app_front_cart') }}
+            }
+        ).catch(e => console.log("Erreur : " + e));
+    });
+}
+{% endif %}
+%};

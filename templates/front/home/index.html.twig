@@ -130,50 +130,8 @@
     <!--End Brands-->
 
     <script>
-
-        window.onload = () => {
-            let addCarts = document.querySelectorAll("[data-addcart]");
-            let alertFlashAddCart = document.getElementById('alert-flash-add-cart');
-            let addFlashAddCartText = () => {
-                alertFlashAddCart.style.display = "block";
-            };
-
-            let fadeAlert = () => {
-                alertFlashAddCart.remove();
-            };
-
-
-            for (let addCart of addCarts) {
-
-                addCart.addEventListener("click", (e) => {
-                    e.preventDefault();
-                    let productId = addCart.getAttribute('data-addcart');
-
-
-                    fetch('{{ path('app_cart_ajax_add_cart') }}', {
-                        method: "POST",
-                        body: JSON.stringify({
-                            'id': productId
-                        })
-                    }).then(
-                        res => res.json()
-                    ).then(
-                        res => {
-                            console.log(res);
-
-                            addFlashAddCartText();
-
-                        }
-                    ).catch(e => console.log("Erreur : " + e));
-
-                });
-            }
-
-
-        };
-
+        {% include 'front/cart/partials/_cart-add.js.twig'%}
     </script>
-
 
 {% endblock %}
 

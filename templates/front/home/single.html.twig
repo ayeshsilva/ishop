@@ -161,7 +161,7 @@
                                 </ul>
                             </div>
                             <div class="row">
-                                {#<div class="col-auto">
+                                {# <div class="col-auto">
                                     <ul class="list-inline pb-3">
                                         <li class="list-inline-item">Size :
                                             <input type="hidden" name="product-size" id="product-size" value="S">
@@ -175,18 +175,13 @@
                                         <li class="list-inline-item"><span
                                                     class="btn btn-success btn-size">XL</span></li>
                                     </ul>
-                                </div>#}
-
+                                </div> #}
                             </div>
                             <div class="row mb-3">
 
                                 <div class="col d-grid">
-                                    <button type="submit" class="btn btn-success btn-lg" name="submit" value="buy">
-                                        Buy
-                                    </button>
-                                </div>
-                                <div class="col d-grid">
-                                    <a type="submit" href="{{ path('app_front_cart_add', {'id': product.id }) }}"
+                                    <a type="submit" id="cart-add"
+                                       href="{{ path('app_front_cart_add', {'id': product.id }) }}"
                                        class="btn btn-success btn-lg"
                                     >Add To Cart
                                     </a>
@@ -214,14 +209,63 @@
                                 <li>Dolore magna aliqua</li>
                                 <li>Excepteur sint</li>
                             </ul>
-
-
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
+
+    <script>
+
+        window.onload = () => {
+            const quantityValue = document.getElementById('var-value');
+            const cartAdd = document.getElementById('cart-add');
+
+            // selecting loading div
+            const loader = document.querySelector(".loading");
+            // showing loading
+            const displayLoading = () => {
+                loader.classList.add("display");
+                // to stop loading after some time
+                setTimeout(() => {
+                    loader.classList.remove("display");
+                }, 10000);
+            }
+
+            // hiding loading
+            const hideLoading = () => {
+                loader.classList.remove("display");
+            }
+
+            cartAdd.addEventListener('click', (e) => {
+                displayLoading();
+                e.preventDefault();
+                const quantity = quantityValue.textContent;
+
+                fetch('{{ path('app_cart_ajax_add_cart') }}', {
+                    method: "POST",
+                    body: JSON.stringify({
+                        'id' : {{ product.id }},
+                        'quantity': quantity
+                    })
+
+                }).then(
+                    res => {
+                        res.json();
+                    }
+                ).then(
+                    res => {
+                        hideLoading();
+                        window.location.href = {{ path('app_front_cart')}}
+                    }
+                ).catch(e => console.log("Erreur : " + e));
+            });
+
+        }
+
+
+    </script>
 
 
 {% endblock %}

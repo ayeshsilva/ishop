@@ -18,13 +18,13 @@ class CartManager
 
     }
 
-    public function addCart(Product $product)
+    public function addCart(Product $product, $quantity = 1)
     {
         $session = $this->request->getSession();
         $cart = $session->get('cart', []);
         $cart [] = [
             'product' => $product,
-            'quantity' => 1
+            'quantity' => $quantity
         ];
 
         $session->set('cart', $cart);

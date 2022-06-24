@@ -15,20 +15,21 @@ class TwigFunctionExtension extends AbstractExtension
     {
     }
 
-    public function getFunctions()
+    public function getFunctions(): array
     {
         return [
             new TwigFunction('caculateTotal', [$this, 'caculateTotal']),
             new TwigFunction('link_to_user', [$this, 'linkToUser']),
+            new TwigFunction('count_cart', [$this, 'countCart']),
         ];
     }
 
-    public function caculateTotal()
+    public function caculateTotal(): float|int
     {
         return $this->cartManager->calculateTotal();
     }
 
-    public function linkToUser($app)
+    public function linkToUser($app): ?string
     {
         $link = null;
        if (in_array("ROLE_ADMIN", $app->getUser()->getRoles())) {
@@ -38,5 +39,13 @@ class TwigFunctionExtension extends AbstractExtension
             $link = 'app_customer_dashboard';
        }
        return $link;
+    }
+
+    public function countCart()
+    {
+         $cart = $this->cartManager->getCart();
+
+         return count($cart);
+
     }
 }
