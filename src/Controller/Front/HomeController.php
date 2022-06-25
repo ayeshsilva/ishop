@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Entity\Category;
 use App\Entity\Contact;
 use App\Entity\Product;
 use App\Form\ContactType;
@@ -25,13 +26,26 @@ class HomeController extends AbstractController
      * @return Response
      */
     #[Route('/', name: 'home')]
-    public function index(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator): Response
+    #[Route('/category/{categorySlug}', name: 'home-category')]
+    public function index(Request $request, ProductRepository $productRepository, CategoryRepository $categoryRepository, PaginatorInterface $paginator, $categorySlug = null): Response
     {
-        $products = $paginator->paginate(
-            $productRepository->findBy([], ['id' => 'desc']),
-            $request->query->getInt('page', 1),
-            9
-        );
+
+        if ($request->attributes->get('_route') == 'home') {
+            $products = $paginator->paginate(
+                $productRepository->findBy([], ['id' => 'desc']),
+                $request->query->getInt('page', 1),
+                9
+            );
+        }
+
+        if ($request->attributes->get('_route') == 'home-category') {
+
+            $products = $paginator->paginate(
+                $productRepository->getCategoryByProducts($categorySlug),
+                $request->query->getInt('page', 1),
+                9
+            );
+        }
 
         $categories = $categoryRepository->findBy([], ['id' => 'desc']);
 

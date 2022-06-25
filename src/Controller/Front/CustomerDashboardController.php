@@ -63,7 +63,7 @@ class CustomerDashboardController extends AbstractController
     #[Route('/message', name: 'app_customer_dashboard_message')]
     public function message(): Response
     {
-        return $this->render('admin/dashboard/message.html.twig', [
+        return $this->render('admin/dashboard/message-test.html.twig', [
 
         ]);
     }

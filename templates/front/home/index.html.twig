@@ -16,7 +16,7 @@
                         </a>
                         <ul class="collapse show list-unstyled pl-3">
                             {% for category in categories%}
-                            <li><a class="text-decoration-none" href="#">{{ category.name|capitalize }}</a></li>
+                            <li><a class="text-decoration-none" href="{{ path('home-category', {'categorySlug': category.slug})}}">{{ category.name|capitalize }}</a></li>
 
                             {%endfor%}
                         </ul>
@@ -26,6 +26,7 @@
             </div>
 
             <div class="col-lg-9">
+                {#
                 <div class="row">
                     <div class="col-md-6">
                         <ul class="list-inline shop-top-menu pb-3 pt-1">
@@ -50,6 +51,7 @@
                         </div>
                     </div>
                 </div>
+                #}
 
                 {% for rows in products|batch(3) %}
                     <div class="row">
