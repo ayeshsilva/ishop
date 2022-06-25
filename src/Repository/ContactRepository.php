@@ -39,20 +39,17 @@ class ContactRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Contact[] Returns an array of Contact objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('c')
-//            ->andWhere('c.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('c.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    public function search($words = null): array
+    {
+        $query = $this->createQueryBuilder('c');
+        if ($words != null) {
+            $query->andWhere('MATCH_AGAINST(c.name, c.email, c.subject, c.message) AGAINST (:words boolean)>0')
+                ->setParameter('words', $words);
+        }
+        $query->orderBy('c.id', 'desc');
+        return $query->getQuery()
+            ->getResult();
+    }
 
 //    public function findOneBySomeField($value): ?Contact
 //    {

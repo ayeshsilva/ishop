@@ -24,12 +24,13 @@ class CustomerController extends AbstractController
             10
         );
 
+
         $form = $this->createForm(SearchFormType::class);
         $search = $form->handleRequest($request);
         if($form->isSubmitted() && $form->isValid()){
 
             $users = $paginator->paginate(
-                $userRepository->findCustomer(
+                $userRepository->search(
                     $search->get('words')->getData(),
                 ),
                 $request->query->getInt('page', 1),

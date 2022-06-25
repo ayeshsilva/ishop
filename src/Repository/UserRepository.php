@@ -75,16 +75,21 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     /**
      * @return User[] Returns an array of User objects
      */
-    public function findCustomer($words = null): array
+    public function search($words = null): array
     {
+
+
         $query = $this->createQueryBuilder('u');
-             if ($words != null) {
-                 $query->andWhere('MATCH_AGAINST(u.email, u.firstName, u.lastName) AGAINST (:words boolean)>0')
-                     ->setParameter('words', $words);
-             }
-            $query->orderBy('u.id', 'desc');
-            return $query->getQuery()
-                ->getResult();
+        if (str_contains($words, '@')) {
+            $query->andWhere("u.email LIKE :email")
+                ->setParameter('email', "%" . $words . "%");
+        } else if ($words != null) {
+            $query->andWhere("MATCH_AGAINST(u.email, u.firstName, u.lastName) AGAINST (:words boolean)>0")
+                ->setParameter('words', $words);
+        }
+        $query->orderBy('u.id', 'desc');
+        return $query->getQuery()
+            ->getResult();
     }
 
 //    public function findOneBySomeField($value): ?User

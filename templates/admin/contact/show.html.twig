@@ -1,11 +1,13 @@
-<!DOCTYPE html>
+{% extends 'admin/layouts/admin.html.twig' %}
 
-<title>Contact</title>
+{% block title %}Contact{% endblock %}
 
-{% block body %}
-    <h1>Contact</h1>
+    {% block main_title %}Contact{% endblock %}
+    {% block content %}
 
-    <table class="table">
+
+
+        <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
@@ -38,9 +40,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_contact_index') }}">back to list</a>
+    <a class="btn btn-primary" href="{{ path('app_admin_contact_index') }}">back to list</a>
 
-    <a href="{{ path('app_admin_contact_edit', {'id': contact.id}) }}">edit</a>
 
-    {{ include('admin/contact/_delete_form.html.twig') }}
+
+
 {% endblock %}

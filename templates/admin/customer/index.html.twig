@@ -5,7 +5,14 @@
 
     {% block main_title %}List customers  ({{ users.totalItemCount }}){% endblock %}
     {% block search %}
-        {{ form(form)}}
+
+        {{ form_start(form)}}
+                {{ form_row(form.words)}}
+                {{ form_widget(form.search)}}
+        <a href="{{ path('app_admin_customer_index')}}" class="btn btn-warning">clear</a>
+
+        {{ form_end(form)}}
+
     {% endblock %}
     {% block content %}
         <table class="table table-striped">
