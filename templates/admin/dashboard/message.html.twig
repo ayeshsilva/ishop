@@ -20,7 +20,7 @@
                                 <hr>
                                 <h1>Message</h1>
                             {% for message in messages%}
-                                <p class="alert-success white p-3" style="color: #000;">{{ message.text }}</p>
+                                <p class="alert-{{ (message.customer is not null) ? 'success' : 'primary' }} white p-3" style="color: #000;">{{ message.text }}</p>
                              {%endfor%}
 
                             </div>

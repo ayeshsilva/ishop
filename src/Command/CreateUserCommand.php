@@ -20,7 +20,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 class CreateUserCommand extends Command
 {
 
-    public function __construct(private UserPasswordHasherInterface $userPasswordHasher,private  UserRepository $userRepository, string $name = null)
+    public function __construct(private UserPasswordHasherInterface $userPasswordHasher, private UserRepository $userRepository, string $name = null)
     {
         parent::__construct($name);
     }
@@ -33,15 +33,14 @@ class CreateUserCommand extends Command
             ->addArgument('lastname', InputArgument::OPTIONAL, 'Lastname')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
             ->addArgument('role', InputArgument::OPTIONAL, 'Role')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description')
-        ;
+            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $io = new SymfonyStyle($input, $output);
         $email = $input->getArgument('email');
-        $firstname= $input->getArgument('firstname');
+        $firstname = $input->getArgument('firstname');
         $lastname = $input->getArgument('lastname');
         $password = $input->getArgument('password');
         $role = $input->getArgument('role');

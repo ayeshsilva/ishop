@@ -27,7 +27,7 @@
             <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>
-                <a class="btn btn-warning" href="{{ path('app_admin_ticket_message_index', {'id': ticket.id})}}">show</a>
+                <a class="btn btn-warning" href="{{ path('app_admin_ticket_message_list_message', {'id': ticket.id})}}">show</a>
             </td>
         </tr>
 

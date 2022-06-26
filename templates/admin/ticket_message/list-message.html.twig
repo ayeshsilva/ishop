@@ -2,6 +2,17 @@
 
 {% block content %}
 
+    {{ form(form) }}
+
+    <br>
+    <h1>Message</h1>
+    {% for message in messages%}
+
+        <p class="alert-{{ (message.team is not null) ? 'success' : 'primary' }} white p-3">
+            {{ message.text}}
+        </p>
+    {%endfor%}
+
 {% endblock %}
 
 {% block main_title %}

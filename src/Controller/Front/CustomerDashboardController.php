@@ -101,7 +101,7 @@ class CustomerDashboardController extends AbstractController
             $message->setCustomer($user);
             $message->setTicket($ticket);
             $messageRepository->add($message, true);
-            $this->addFlash('success', 'create Ticket');
+            $this->addFlash('success', 'create Message');
         }
 
          $message = $messageRepository->getTicketByUser($ticket,$user);
