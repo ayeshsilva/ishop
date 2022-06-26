@@ -72,7 +72,7 @@ class CartManager
     {
         $order = new Order();
         $order->setUser($customer);
-        $order->setStatus('preparing');
+        $order->setStatus(Order::STEP1);
 
         $this->em->persist($order);
         $this->em->flush();

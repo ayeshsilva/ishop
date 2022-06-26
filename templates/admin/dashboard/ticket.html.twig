@@ -1,7 +1,6 @@
 {% extends 'front/layouts/base.html.twig' %}
-{% block main_title %}
 
-{% endblock %}
+{% block main_title %}{% endblock %}
 
 {% block content %}
     <section class="bg-light">
@@ -9,20 +8,16 @@
             <div class="row text-center pt-5 pb-3">
                 <div class="col-lg-12 m-auto">
                     <h1 class="h1">Ticket</h1>
-                    <div class=" d-flex justify-content-center ">
+                    <div class=" d-flex justify-content-center align-items-center">
                         <div class="row">
-                            <div class="col-md-12 ">
+                            <div class="col-md-12  pb-5">
 
                                 {{ form(form) }}
-
                                 <br>
-
-                                <hr>
-                                <h1>Message</h1>
-                            {% for message in messages%}
-                                <p class="alert-success white p-3" style="color: #000;">{{ message.text }}</p>
-                             {%endfor%}
-
+                                <h1>List</h1>
+                                {% for ticket in tickets %}
+                                   <p> <a href="{{ path('app_customer_dashboard_message', {'id': ticket.id})}}">{{ ticket.subject}} </a></p>
+                                {% endfor %}
                             </div>
                         </div>
                     </div>

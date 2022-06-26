@@ -39,20 +39,21 @@ class MessageRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Message[] Returns an array of Message objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('m')
-//            ->andWhere('m.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('m.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @return Message[] Returns an array of Message objects
+     */
+    public function getTicketByUser($ticket, $user): array
+    {
+        return $this->createQueryBuilder('m')
+            ->join('m.ticket', 't')
+            ->andWhere('t.id = :ticket')
+            ->andWhere('t.user = :user')
+            ->setParameter('ticket', $ticket)
+            ->setParameter('user', $user)
+            ->orderBy('m.id', 'desc')
+            ->getQuery()
+            ->getResult();
+    }
 
 //    public function findOneBySomeField($value): ?Message
 //    {

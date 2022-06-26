@@ -15,14 +15,14 @@ class AppFixtures extends Fixture
     {
         $faker = Faker\Factory::create();
 
-
         for($i=10; $i<=49; $i++) {
            
          $product = new Product();
-         $product->setName('Product '.$i);
-         $product->setDescription($faker->text(30));
+         $product->setName($faker->words()[0]);
+         $product->setDescription($faker->text(20));
          $product->setPrice(rand(10,100));
          $product->setStock(rand(5, 30));
+         $product->setDefaultImage($faker->imageUrl(640, 480, 'animals', true));
          $product->setCategory($manager->getRepository(Category::class)->find((rand(3,4))));
          $manager->persist($product);
 

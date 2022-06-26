@@ -55,9 +55,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer')]
     private $phone;
 
+    #[ORM\OneToMany(mappedBy: 'team', targetEntity: Message::class)]
+    private $messages;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Ticket::class)]
+    private $tickets;
+
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->messages = new ArrayCollection();
+        $this->tickets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -240,6 +248,66 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setPhone(int $phone): self
     {
         $this->phone = $phone;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Message>
+     */
+    public function getMessages(): Collection
+    {
+        return $this->messages;
+    }
+
+    public function addMessage(Message $message): self
+    {
+        if (!$this->messages->contains($message)) {
+            $this->messages[] = $message;
+            $message->setTeam($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMessage(Message $message): self
+    {
+        if ($this->messages->removeElement($message)) {
+            // set the owning side to null (unless already changed)
+            if ($message->getTeam() === $this) {
+                $message->setTeam(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Ticket>
+     */
+    public function getTickets(): Collection
+    {
+        return $this->tickets;
+    }
+
+    public function addTicket(Ticket $ticket): self
+    {
+        if (!$this->tickets->contains($ticket)) {
+            $this->tickets[] = $ticket;
+            $ticket->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTicket(Ticket $ticket): self
+    {
+        if ($this->tickets->removeElement($ticket)) {
+            // set the owning side to null (unless already changed)
+            if ($ticket->getCustomer() === $this) {
+                $ticket->setCustomer(null);
+            }
+        }
 
         return $this;
     }

@@ -16,39 +16,72 @@ class Message
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
+    
 
     #[ORM\Column(type: 'string', length: 255)]
-    private $title;
+    private $text;
 
-    #[ORM\Column(type: 'text')]
-    private $content;
+    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'messages')]
+    private $team;
+
+    #[ORM\ManyToOne(targetEntity: User::class)]
+    private $Customer;
+
+    #[ORM\ManyToOne(targetEntity: Ticket::class)]
+    private $ticket;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getTitle(): ?string
+    public function getText(): ?string
     {
-        return $this->title;
+        return $this->text;
     }
 
-    public function setTitle(string $title): self
+    public function setText(string $text): self
     {
-        $this->title = $title;
+        $this->text = $text;
 
         return $this;
     }
 
-    public function getContent(): ?string
+    public function getTeam(): ?User
     {
-        return $this->content;
+        return $this->team;
     }
 
-    public function setContent(string $content): self
+    public function setTeam(?User $team): self
     {
-        $this->content = $content;
+        $this->team = $team;
 
         return $this;
     }
+
+    public function getCustomer(): ?User
+    {
+        return $this->Customer;
+    }
+
+    public function setCustomer(?User $Customer): self
+    {
+        $this->Customer = $Customer;
+
+        return $this;
+    }
+
+    public function getTicket(): ?Ticket
+    {
+        return $this->ticket;
+    }
+
+    public function setTicket(?Ticket $ticket): self
+    {
+        $this->ticket = $ticket;
+
+        return $this;
+    }
+
+
 }
