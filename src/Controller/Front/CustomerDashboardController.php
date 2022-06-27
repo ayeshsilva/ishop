@@ -77,7 +77,8 @@ class CustomerDashboardController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()){
             $ticket->setUser($user);
             $ticketRepository->add($ticket, true);
-            $this->addFlash('success', 'create Ticket');
+            $this->addFlash('success', 'Ticket has been created');
+            return $this->redirectToRoute('app_customer_dashboard_ticket');
         }
 
         return $this->render('admin/dashboard/ticket.html.twig', [
@@ -101,7 +102,10 @@ class CustomerDashboardController extends AbstractController
             $message->setCustomer($user);
             $message->setTicket($ticket);
             $messageRepository->add($message, true);
-            $this->addFlash('success', 'create Message');
+            $this->addFlash('success', 'Message has been created');
+            return $this->redirectToRoute('app_customer_dashboard_message', [
+                'id' => $ticket->getId()
+            ]);
         }
 
          $message = $messageRepository->getTicketByUser($ticket,$user);

@@ -20,12 +20,12 @@ class MessageType extends AbstractType
                 ]
             ])
             ->add('save', SubmitType::class, [
+                'label' => 'Send',
                 'attr' => [
+
                     'class' => 'btn btn-primary',
                 ]
-            ])
-
-        ;
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
