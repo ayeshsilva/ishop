@@ -39,6 +39,27 @@ class TicketRepository extends ServiceEntityRepository
         }
     }
 
+
+    /**
+     * @return Ticket[] Returns an array of User objects
+     */
+    public function search($words = null): array
+    {
+
+        $query = $this->createQueryBuilder('t');
+        if (str_contains($words, '@')) {
+            $query->join('t.user', 'u')
+                ->andWhere("u.email LIKE :email")
+                ->setParameter('email', "%" . $words . "%");
+        } else if ($words != null) {
+            $query->andWhere("t.subject LIKE :subject")
+                ->setParameter('subject', '%' . $words . '%');
+        }
+        $query->orderBy('t.id', 'desc');
+        return $query->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Ticket[] Returns an array of Ticket objects
 //     */

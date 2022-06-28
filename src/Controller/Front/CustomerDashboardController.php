@@ -76,9 +76,12 @@ class CustomerDashboardController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()){
             $ticket->setUser($user);
+            $ticket->setStatus(1);
             $ticketRepository->add($ticket, true);
             $this->addFlash('success', 'Ticket has been created');
-            return $this->redirectToRoute('app_customer_dashboard_ticket');
+            return $this->redirectToRoute('app_customer_dashboard_message', [
+            'id' => $ticket->getId()
+            ]);
         }
 
         return $this->render('admin/dashboard/ticket.html.twig', [

@@ -1,18 +1,65 @@
 {% extends 'admin/layouts/admin.html.twig' %}
 
 {% block content %}
+    <div class="form-check form-switch">
+        <label for="flexSwitchCheckDefault"></label>
+        <input class="form-check-input" type="checkbox" id="statusSwitch" {% if ticket.isStatus %} checked {%endif%} />
+    </div>
 
-    {{ form(form) }}
+    <div class="" style="display: {{ ticket.isStatus ? 'block' : 'none' }}">
+        {{ form(form) }}
+    </div>
+
+    <div style="display: {{ ticket.isStatus ? 'none' : 'block' }}">
+        <p class="alert alert-danger">
+            The ticket is closed
+        </p>
+    </div>
+
 
     <br>
-    <h1>Message</h1>
+    <hr>
+    <h1>Chat Messages</h1>
     {% for message in messages%}
-
-        <p class="alert-{{ (message.team is not null) ? 'success' : 'primary' }} white p-3">
-            {{ message.text}}
-        </p>
+        <div class="chat-box {{ (message.customer is not null) ? 'team' : 'customer' }}">
+            <div class="{{ (message.customer is not null) ? 'time-left' : 'time-right' }}" >
+                <p >{{ message.text }}</p>
+                <span class="time">{{  message.createdAt|ago }}</span>
+            </div>
+        </div>
     {%endfor%}
 
+
+    <script>
+        window.onload = () => {
+
+            const statusSwitch = document.getElementById('statusSwitch');
+
+            statusSwitch.addEventListener('change', (e) => {
+                console.log(statusSwitch)
+                e.preventDefault();
+                console.log(statusSwitch)
+
+                fetch('{{ path('app_admin_ticket_message_ajax_switch_status') }}', {
+                    method: "POST",
+                    body: JSON.stringify({
+                        'id': {{ ticket.id }},
+                        'status':  statusSwitch.checked
+                    })
+                }).then(
+                    res => {
+                        res.json();
+                    }
+                ).then(
+                    res => {
+
+                        window.location.href = "{{ path('app_admin_ticket_message_list_message', {'id' : ticket.id }) }}"
+                    }
+                ).catch(e => console.log("Erreur : " + e));
+            });
+
+        }
+    </script>
 {% endblock %}
 
 {% block main_title %}

@@ -2,38 +2,54 @@
 
 {% block title %}Ticket - Message  index{% endblock %}
 
+    {% block main_title %}List Ticket ({{ tickets.totalItemCount }})    {% endblock %}
+{% block search %}
+    {{ form_start(form) }}
+    {{ form_row(form.words) }}
+    {{ form_widget(form.search) }}
+    <a href="{{ path('app_admin_ticket_message_index') }}" class="btn btn-warning">clear</a>
 
+    {{ form_end(form) }}
 
-    {% block main_title %}{% endblock %}
+{% endblock %}
 
     {% block content %}
-<table class="table table-striped">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>subject</th>
-        <th>email</th>
-        <th>CreatedAt</th>
-        <th>UpdatedAt</th>
-        <th>actions</th>
-    </tr>
-    </thead>
-    <tbody>
-        {% for ticket in tickets%}
-        <tr>
-            <td>{{ ticket.id }}</td>
-            <td>{{ ticket.subject }}</td>
-            <td>{{ ticket.user.email }}</td>
-            <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            <td>{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            <td>
-                <a class="btn btn-warning" href="{{ path('app_admin_ticket_message_list_message', {'id': ticket.id})}}">show</a>
-            </td>
-        </tr>
+        <table class="table table-striped">
+            <thead>
+            <tr>
+                <th>Id</th>
+                <th>subject</th>
+                <th>status</th>
+                <th>email</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for ticket in tickets %}
+                <tr>
+                    <td>{{ ticket.id }}</td>
+                    <td>{{ ticket.subject }}</td>
+                    <td>
 
-        {%endfor%}
+                        {{ ticket.statusArray[ticket.isStatus] }}
+                    </td>
+                    <td>{{ ticket.user.email }}</td>
+                    <td>{{ ticket.createdAt ? ticket.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ ticket.updatedAt ? ticket.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        <a class="btn btn-warning"
+                           href="{{ path('app_admin_ticket_message_list_message', {'id': ticket.id}) }}">show</a>
+                    </td>
+                </tr>
 
-    </tbody>
-</table>
+            {% endfor %}
+
+            </tbody>
+        </table>
+
+
+
 
     {% endblock %}

@@ -24,6 +24,9 @@ class Ticket
     #[ORM\JoinColumn(nullable: false)]
     private $user;
 
+    #[ORM\Column(type: 'boolean', options: ['default' => 1])]
+    private $status;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -57,6 +60,24 @@ class Ticket
         $this->user = $user;
     }
 
+    public function isStatus(): ?bool
+    {
+        return $this->status;
+    }
 
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function statusArray(): array
+    {
+        return [
+            0 => 'close',
+            1 => 'open'
+        ];
+    }
 
 }

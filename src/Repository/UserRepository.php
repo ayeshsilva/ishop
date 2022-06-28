@@ -78,7 +78,6 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function search($words = null): array
     {
 
-
         $query = $this->createQueryBuilder('u');
         if (str_contains($words, '@')) {
             $query->andWhere("u.email LIKE :email")

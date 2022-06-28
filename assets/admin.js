@@ -8,6 +8,7 @@
 // any CSS you import will output into a single css file (app.scss in this case)
 import './styles/app.scss';
 import './styles/admin/dashboard.scss';
+import './styles/global.scss';
 import './styles/front/fontawesome.css';
 
 import { Tooltip, Toast, Popover } from 'bootstrap';

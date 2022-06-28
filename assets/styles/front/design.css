@@ -353,37 +353,3 @@ a-link:link {
         transform: rotate(360deg);
     }
 }
-
-.chat-box {
-    border-radius: 5px;
-    padding: 10px;
-    margin: 10px 0;
-}
-
-.team {
-    border: 2px solid #2ecc71;
-    background-color: #2ecc71;
-}
-
-.customer {
-    border: 2px solid #74b9ff;
-    background-color: #74b9ff;
-}
-
-.chat-box img.right {
-    float: right;
-    margin-left: 20px;
-    margin-right:0;
-}
-
-.time-right {
-    text-align: end;
-}
-
-.time-left {
-    text-align: start;
-}
-.time{
-    font-size: 12px;
-    color: #fff;
-}
