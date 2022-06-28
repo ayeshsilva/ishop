@@ -4,8 +4,13 @@
 
 
     {% block main_title %}List orders  ({{ orders.totalItemCount}}){% endblock %}
-    {% block content %}
+    {% block search %}
+        {% include 'admin/partials/_search.html.twig' with {
+            url_path : 'app_admin_order_index'
+        }%}
 
+    {% endblock %}
+    {% block content %}
     <table class="table table-striped">
         <thead>
             <tr>
@@ -44,5 +49,5 @@
         <div class="d-flex justify-content-center">
             {{ knp_pagination_render(orders, 'admin/layouts/partials/_pagination.html.twig') }}
         </div>
-
+</div>
 {% endblock %}

@@ -77,6 +77,8 @@ class ProductRepository extends ServiceEntityRepository
         ;
     }
 
+
+
 //    public function findOneBySomeField($value): ?Product
 //    {
 //        return $this->createQueryBuilder('p')

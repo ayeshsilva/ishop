@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Order;
+use App\Form\SearchFormType;
 use App\Manager\InvoiceManager;
 use App\Repository\OrderRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +23,7 @@ class OrderController extends AbstractController
      * @param PaginatorInterface $paginator
      * @return Response
      */
-    #[Route('/', name: 'app_admin_order_index', methods: ['GET'])]
+    #[Route('/', name: 'app_admin_order_index', methods: ['GET','POST'])]
     public function index(Request $request, OrderRepository $orderRepository, PaginatorInterface $paginator): Response
     {
         $orders = $paginator->paginate(
@@ -31,8 +32,22 @@ class OrderController extends AbstractController
             10
         );
 
+        $form = $this->createForm(SearchFormType::class);
+        $search = $form->handleRequest($request);
+        if($form->isSubmitted() && $form->isValid()){
+
+            $orders = $paginator->paginate(
+                $orderRepository->search(
+                    $search->get('words')->getData(),
+                ),
+                $request->query->getInt('page', 1),
+                10
+            );
+        }
+
         return $this->render('admin/order/index.html.twig', [
             'orders' => $orders,
+            'form' => $form->createView()
         ]);
     }
 
@@ -42,13 +57,14 @@ class OrderController extends AbstractController
      * @return Response
      */
     #[Route('/{id<\d+>}', name: 'app_admin_order_show', methods: ['GET'])]
-    public function show(Order $order, InvoiceManager $invoiceManager): Response
+    public function show(Request $request, Order $order, InvoiceManager $invoiceManager): Response
     {
         $invoiceCalculs = $invoiceManager->invoiceCalculView($order);
 
         return $this->render('admin/order/show.html.twig', [
             'order' => $order,
-            'invoice_calculs' => $invoiceCalculs
+            'invoice_calculs' => $invoiceCalculs,
+
         ]);
     }
 

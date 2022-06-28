@@ -4,14 +4,11 @@
 
 
     {% block main_title %}List customers  ({{ users.totalItemCount }}){% endblock %}
+
     {% block search %}
-
-       {{ form_start(form)}}
-                {{ form_row(form.words)}}
-                {{ form_widget(form.search)}}
-        <a href="{{ path('app_admin_customer_index')}}" class="btn btn-warning">clear</a>
-
-        {{ form_end(form)}}
+        {% include 'admin/partials/_search.html.twig' with {
+            url_path : 'app_admin_customer_index'
+        }%}
 
     {% endblock %}
     {% block content %}

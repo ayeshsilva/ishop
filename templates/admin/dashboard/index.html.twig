@@ -4,6 +4,78 @@
 {% block main_title %}Dashboard{% endblock %}
 {% block content %}
 
+    <div class="row p-4">
+        <div class="col-md-3">
+            <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
+                <div class="card-header">Ticket</div>
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ tickets|length}}</h3>
+                    <div class=" d-flex align-items-center justify-content-between">
+                        <a class="text-white " href="{{ path('app_admin_ticket_message_index')}}">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-warning mb-3" style="max-width: 18rem;">
+                <div class="card-header">Order</div>
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ orders|length}}</h3>
+                    <div class=" d-flex align-items-center justify-content-between">
+                        <a class="text-white " href="{{ path('app_admin_order_index')}}">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-primary mb-3" style="max-width: 18rem;">
+                <div class="card-header">Product</div>
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ products|length}}</h3>
+                    <div class=" d-flex align-items-center justify-content-between">
+                        <a class="text-white " href="{{ path('app_admin_product_index')}}">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
+                <div class="card-header">Category</div>
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ categories|length}}</h3>
+                    <div class=" d-flex align-items-center justify-content-between">
+                        <a class="text-white " href="{{ path('app_admin_category_index')}}">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-success mb-3" style="max-width: 18rem;">
+                <div class="card-header">Customer</div>
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ customers|length}}</h3>
+                    <div class=" d-flex align-items-center justify-content-between">
+                        <a class="text-white " href="{{ path('app_admin_customer_index')}}">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="card text-white bg-secondary mb-3" style="max-width: 18rem;">
+                <div class="card-header">Contact</div>
+                <div class="card-body text-center">
+                    <h3 class="card-title">{{ contacts|length}}</h3>
+                    <div class=" d-flex align-items-center justify-content-between">
+                        <a class="text-white " href="{{ path('app_admin_contact_index')}}">View Details</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+    </div>
+
 {% endblock %}
 
 

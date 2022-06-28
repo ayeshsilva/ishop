@@ -72,6 +72,23 @@ class OrderRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * @return Order[] Returns an array of User objects
+     */
+    public function search($words = null): array
+    {
+
+        $query = $this->createQueryBuilder('o');
+        if (str_contains($words, '@')) {
+            $query->andWhere("o.user.email LIKE :email")
+                ->setParameter('email', "%" . $words . "%");
+        }
+
+        $query->orderBy('o.id', 'desc');
+        return $query->getQuery()
+            ->getResult();
+    }
+
 //    public function findOneBySomeField($value): ?Order
 //    {
 //        return $this->createQueryBuilder('o')

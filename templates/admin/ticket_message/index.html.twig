@@ -3,15 +3,12 @@
 {% block title %}Ticket - Message  index{% endblock %}
 
     {% block main_title %}List Ticket ({{ tickets.totalItemCount }})    {% endblock %}
-{% block search %}
-    {{ form_start(form) }}
-    {{ form_row(form.words) }}
-    {{ form_widget(form.search) }}
-    <a href="{{ path('app_admin_ticket_message_index') }}" class="btn btn-warning">clear</a>
+ {% block search %}
+     {% include 'admin/partials/_search.html.twig' with {
+         url_path : 'app_admin_ticket_message_index'
+     }%}
+ {% endblock %}
 
-    {{ form_end(form) }}
-
-{% endblock %}
 
     {% block content %}
         <table class="table table-striped">
