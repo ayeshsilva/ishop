@@ -14,7 +14,7 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
-    name: 'app:create-user',
+    name: ' ',
     description: 'Add a short description for your command',
 )]
 class CreateUserCommand extends Command
@@ -32,8 +32,7 @@ class CreateUserCommand extends Command
             ->addArgument('firstname', InputArgument::OPTIONAL, 'Firstname')
             ->addArgument('lastname', InputArgument::OPTIONAL, 'Lastname')
             ->addArgument('password', InputArgument::OPTIONAL, 'Password')
-            ->addArgument('role', InputArgument::OPTIONAL, 'Role')
-            ->addOption('option1', null, InputOption::VALUE_NONE, 'Option description');
+            ->addArgument('role', InputArgument::OPTIONAL, 'Role');
     }
 
     protected function execute(InputInterface $input, OutputInterface $output): int
