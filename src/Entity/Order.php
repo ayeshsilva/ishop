@@ -36,13 +36,13 @@ class Order
     #[ORM\OneToMany(mappedBy: 'orders', targetEntity: ProductQuantity::class)]
     private $productQuantities;
 
-    #[ORM\Column(type: 'string', length: 50, unique: true)]
+    #[ORM\Column(type: 'string', length: 50, unique: true, nullable: true)]
     private $billNumber;
 
     public function __construct()
     {
         $this->productQuantities = new ArrayCollection();
-        $this->setBillNumber ( 'B'.$this->getId());
+
     }
 
     public function getId(): ?int
@@ -120,10 +120,12 @@ class Order
         return $this->billNumber;
     }
 
-    public function setBillNumber(string $billNumber): self
+    public function setBillNumber(string $billNumber = null): self
     {
         $this->billNumber = $billNumber;
 
         return $this;
     }
+
+
 }

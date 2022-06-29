@@ -37,7 +37,7 @@ window.onload = () => {
             ).then(
                 res => {
                     hideLoading();
-                    window.location.href = {{ path('app_front_cart') }}
+                    window.location.href = "{{ path('app_front_cart') }}"
                 }
             ).catch(e => console.log("Erreur : " + e));
         });
@@ -64,10 +64,10 @@ window.onload = () => {
         ).then(
             res => {
                 hideLoading();
-                window.location.href = {{ path('app_front_cart') }}
+                window.location.href = "{{ path('app_front_cart') }}"
             }
         ).catch(e => console.log("Erreur : " + e));
     });
 }
 {% endif %}
-%};
+

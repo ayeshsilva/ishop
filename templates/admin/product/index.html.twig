@@ -36,7 +36,7 @@
                             <td>{{ product.id }}</td>
                             <td>{{ product.name }}</td>
                             <td>{{ product.description }}</td>
-                            <td>{{ product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</td>
+                            <td>{{ product.price|format_currency('EUR') }}</td>
                             <td>{{ product.stock }}</td>
                             <td>{{ product.category.name }}</td>
                             <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>

@@ -89,6 +89,29 @@ class OrderRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+
+    /**
+     * @return Order[] Returns an array of Order objects
+     */
+    public function getProducts( Order $order): array
+    {
+        dump('he');
+        return $this->createQueryBuilder('o')
+            ->select('o,  pq, p')
+            ->join('o.productQuantities', 'pq')
+            //->join('o.user', 'u')
+            ->join('pq.product', 'p')
+            ->andWhere('o.id = :id' )
+            //->andWhere('u.id = :user' )
+            ->setParameter('id', $order->getId())
+            //->setParameter('user', $order->getUser()->getId())
+            ->getQuery()
+            ->getArrayResult()
+            ;
+    }
+
+
+
 //    public function findOneBySomeField($value): ?Order
 //    {
 //        return $this->createQueryBuilder('o')

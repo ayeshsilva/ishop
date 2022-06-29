@@ -31,12 +31,13 @@ async function handleSubmit(e) {
     e.preventDefault();
     setLoading(true);
 
+
     const {error} = await stripe.confirmPayment({
         elements,
         confirmParams: {
             // Make sure to change this to your payment completion page
-            return_url: "{{ absolute_url(path('app_front_cart_success'))  }}",
-        },
+            return_url: "{{ absolute_url(path('app_front_cart_success'))  }}"
+        }
     });
 
     // This point will only be reached if there is an immediate error when

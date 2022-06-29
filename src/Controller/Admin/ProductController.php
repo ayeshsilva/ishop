@@ -70,7 +70,6 @@ class ProductController extends AbstractController
                 $product->addImage($img);
             }
 
-
             $productRepository->add($product, true);
 
             return $this->redirectToRoute('app_admin_product_index', [], Response::HTTP_SEE_OTHER);
@@ -153,7 +152,6 @@ class ProductController extends AbstractController
             return new JsonResponse(['success' => 1]);
         }
         return new JsonResponse(['error' => 'Invalid Token'], 400);
-
 
     }
 }

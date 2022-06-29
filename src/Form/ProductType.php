@@ -9,6 +9,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -21,7 +22,7 @@ class ProductType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('price')
+            ->add('price', MoneyType::class)
             ->add('stock')
             ->add('category', EntityType::class, [
                 'placeholder' => 'Select category',
