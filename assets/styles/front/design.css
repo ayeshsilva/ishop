@@ -34,8 +34,8 @@ a:link{
 /* Typography */
 body, ul, li, p, a, label, input, div {
     font-family: 'Roboto', sans-serif;
-    font-size: 18px !important;
-    font-weight: 300 !important;
+    font-size: 18px;
+    font-weight: 300;
 }
 .h1 {
     font-family: 'Roboto', sans-serif;
@@ -352,4 +352,8 @@ a-link:link {
         -o-transform: rotate(360deg);
         transform: rotate(360deg);
     }
+}
+
+.fs-12 {
+    font-size: 12px;
 }

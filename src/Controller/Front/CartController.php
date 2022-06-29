@@ -33,11 +33,9 @@ class CartController extends AbstractController
      * @return Response
      */
     #[NoReturn] #[Route('/', name: 'app_front_cart')]
-    public function index( CartManager $cartManager): Response
+    public function index(CartManager $cartManager): Response
     {
-        $carts =  $cartManager->getCart();
-
-
+        $carts = $cartManager->getCart();
 
         return $this->render('front/cart/index.html.twig', ['carts' => $carts]);
     }
@@ -74,7 +72,7 @@ class CartController extends AbstractController
         $priceTotal = $cartManager->calculateTotal();
         $data = ['clientSecret' => $stripeManager->createPayment($priceTotal)];
 
-        return new JsonResponse($data );
+        return new JsonResponse($data);
     }
 
 
@@ -85,12 +83,12 @@ class CartController extends AbstractController
      * @return Response
      */
     #[Route('/success', name: 'app_front_cart_success')]
-    public function success(Request $request,StripeService $stripeService, CartManager $cartManager): Response
+    public function success(Request $request, StripeService $stripeService, CartManager $cartManager): Response
     {
 
-        $session = $request->getSession( );
+        $session = $request->getSession();
         $cartManager->createOrder($this->getUser());
-        
+
         $session->remove('cart');
 
         return $this->render('front/cart/success.html.twig', [
@@ -126,6 +124,7 @@ class CartController extends AbstractController
         $carts = $cartManager->getCart();
 
         if (empty($carts)) {
+            $this->addFlash('danger', 'access denied');
             return $this->redirectToRoute('home');
         }
 
@@ -142,7 +141,7 @@ class CartController extends AbstractController
      * @return Response
      */
     #[Route('/invoice/{id<\d+>}', name: 'app_cart_invoice', methods: ['GET'])]
-    public function invoice(Pdf $knpSnappyPdf, Order $order,  InvoiceManager $invoiceManager): Response
+    public function invoice(Pdf $knpSnappyPdf, Order $order, InvoiceManager $invoiceManager): Response
     {
         $invoiceCalculs = $invoiceManager->invoiceCalculView($order);
         $html = $this->renderView('admin/order/invoice.html.twig', [
@@ -162,15 +161,15 @@ class CartController extends AbstractController
      * @param CartManager $cartManager
      * @return JsonResponse
      */
-    #[Route('/ajax/add-cart',name:'app_cart_ajax_add_cart', methods: ['GET','POST'])]
-    public function ajaxAddCart(Request $request, ProductRepository $productRepository, CartManager $cartManager) : JsonResponse
+    #[Route('/ajax/add-cart', name: 'app_cart_ajax_add_cart', methods: ['GET', 'POST'])]
+    public function ajaxAddCart(Request $request, ProductRepository $productRepository, CartManager $cartManager): JsonResponse
     {
         $data = json_decode($request->getContent(), true);
 
         if (!is_null($data)) {
 
             $product = $productRepository->find($data['id']);
-            $cartManager->addCart($product, $data['quantity'] );
+            $cartManager->addCart($product, $data['quantity']);
 
             return new JsonResponse(["success" => "OK"], 200);
         }

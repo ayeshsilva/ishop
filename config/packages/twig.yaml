@@ -5,6 +5,13 @@ twig:
     globals:
         images_directory: '/uploads/'
         images_product: '/images/products/'
+        site_name: 'angyz'
+        phone: '07 85 45 82 30'
+        address: '101, rue rambuteau'
+        city : 'Paris'
+        zipcode : '75001'
+        country : 'France'
+        email: 'ayeshsilva42@gmail.com'
 
 when@test:
     twig:

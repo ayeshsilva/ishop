@@ -27,10 +27,13 @@
                 <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control" autocomplete="email" required autofocus>
                 <label for="inputPassword">Password</label>
                 <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
-
+                <p class="mt-2">
+                    <a class="fs-12" href="{{ path('app_forgot_password_request')}}">forgot password ?</a>  |  <a class="fs-12" href="{{ path('app_register')}}">Create account</a>
+                </p>
                 <input type="hidden" name="_csrf_token"
                        value="{{ csrf_token('authenticate') }}"
                 >
+
 
                 {#
                 Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
@@ -47,6 +50,7 @@
                     Sign in
                 </button>
             </form>
+
 
 
 

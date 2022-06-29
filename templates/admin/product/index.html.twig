@@ -2,8 +2,6 @@
 
 {% block title %}Product index{% endblock %}
 
-
-
     {% block main_title %}Product index ({{ products.totalItemCount }}){% endblock %}
        {% block search %}
            {% include 'admin/partials/_search.html.twig' with {
@@ -26,7 +24,7 @@
                         <th>Description</th>
                         <th>Price</th>
                         <th>Stock</th>
-                        <th>Slug</th>
+                        <th>Category</th>
                         <th>CreatedAt</th>
                         <th>UpdatedAt</th>
                         <th>actions</th>
@@ -40,7 +38,7 @@
                             <td>{{ product.description }}</td>
                             <td>{{ product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</td>
                             <td>{{ product.stock }}</td>
-                            <td>{{ product.slug }}</td>
+                            <td>{{ product.category.name }}</td>
                             <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                             <td>
