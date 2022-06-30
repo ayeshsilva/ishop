@@ -15,7 +15,10 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
     name: 'app:create-user',
-    description: 'Add a short description for your command',
+    description: '
+    app:create-user ayesh@gmail.com ayesh silva aqwzsx ROLE_ADMIN
+    
+    ',
 )]
 class CreateUserCommand extends Command
 {

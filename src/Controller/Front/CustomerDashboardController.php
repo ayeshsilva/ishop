@@ -11,6 +11,7 @@ use App\Repository\MessageRepository;
 use App\Repository\OrderRepository;
 use App\Repository\TicketRepository;
 use App\Entity\Message;
+use App\Security\UserAuthenticator;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,8 +21,13 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerDashboardController extends AbstractController
 {
     #[Route('/', name: 'app_customer_dashboard')]
-    public function index(): Response
+    public function index(Request $request, UserAuthenticator $authenticator): Response
     {
+        $user = $this->getUser();
+
+       $this->denyAccessUnlessGranted('customerVerified', $user);
+
+
         return $this->render('front/customer_dashboard/index.html.twig', [
 
         ]);
@@ -31,6 +37,7 @@ class CustomerDashboardController extends AbstractController
     public function shippingReturn(OrderRepository $orderRepository): Response
     {
         $user = $this->getUser();
+        $this->denyAccessUnlessGranted('customerVerified', $user);
 
         $orders = $orderRepository->findByEmailCustomerOrder($user);
 
@@ -41,14 +48,14 @@ class CustomerDashboardController extends AbstractController
     }
 
 
-
     #[Route('/tracking/{id<\d+>}', name: 'app_customer_dashboard_tracking')]
-    public function tracking(Order $order,  InvoiceManager $invoiceManager): Response
+    public function tracking(Order $order, InvoiceManager $invoiceManager): Response
     {
         $user = $this->getUser();
+        $this->denyAccessUnlessGranted('customerVerified', $user);
         $invoiceCalculs = $invoiceManager->invoiceCalculView($order);
 
-        $positionCurrent = array_keys( $order->step(), $order->getStatus());
+        $positionCurrent = array_keys($order->step(), $order->getStatus());
 
         return $this->render('admin/dashboard/tacking.html.twig', [
             'order' => $order,
@@ -57,30 +64,25 @@ class CustomerDashboardController extends AbstractController
         ]);
     }
 
-    #[Route('/bill', name: 'app_customer_dashboard_bill')]
-    public function bill(): Response
-    {
-        return $this->render('admin/dashboard/bill.html.twig', [
-
-        ]);
-    }
 
     #[Route('/ticket', name: 'app_customer_dashboard_ticket')]
     public function ticket(Request $request, TicketRepository $ticketRepository): Response
     {
-       $user = $this->getUser();
+        $user = $this->getUser();
+        $this->denyAccessUnlessGranted('customerVerified', $user);
+
         $ticket = new Ticket();
         $form = $this->createForm(TicketType::class, $ticket);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $ticket->setUser($user);
             $ticket->setStatus(1);
             $ticketRepository->add($ticket, true);
             $this->addFlash('success', 'Ticket has been created');
             return $this->redirectToRoute('app_customer_dashboard_message', [
-            'id' => $ticket->getId()
+                'id' => $ticket->getId()
             ]);
         }
 
@@ -96,12 +98,13 @@ class CustomerDashboardController extends AbstractController
     public function message(Request $request, Ticket $ticket, MessageRepository $messageRepository): Response
     {
         $user = $this->getUser();
+        $this->denyAccessUnlessGranted('customerVerified', $user);
         $message = new Message();
         $form = $this->createForm(MessageType::class, $message);
 
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
             $message->setCustomer($user);
             $message->setTicket($ticket);
             $messageRepository->add($message, true);
@@ -111,7 +114,7 @@ class CustomerDashboardController extends AbstractController
             ]);
         }
 
-         $message = $messageRepository->getTicketByUser($ticket,$user);
+        $message = $messageRepository->getTicketByUser($ticket, $user);
         return $this->render('admin/dashboard/message.html.twig', [
             'form' => $form->createView(),
             'messages' => $message
