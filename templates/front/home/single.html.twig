@@ -67,7 +67,7 @@
                     <div class="card">
                         <div class="card-body">
                             <h1 class="h2">{{ product.name }}</h1>
-                            <p class="h3 py-2">{{ product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</p>
+                            <p class="h3 py-2">{{ product.price|format_currency('EUR', locale='fr') }}</p>
                             {#
                             <p class="py-2">
                                 <i class="fa fa-star text-warning"></i>
@@ -78,16 +78,18 @@
                                 <span class="list-inline-item text-dark">Rating 4.8 | 36 Comments </span>
                             </p>
                             #}
+                            {#
                             <ul class="list-inline">
                                 <li class="list-inline-item">
                                     <h6>Brand:</h6>
                                 </li>
-                                {#
+
                                 <li class="list-inline-item">
                                     <p class="text-muted"><strong>Easy Wear</strong></p>
                                 </li>
-                                #}
+
                             </ul>
+                            #}
                             <div class="col d-grid">
                                 <ul class="list-inline pb-3">
                                     <li class="list-inline-item text-right">

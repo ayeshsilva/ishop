@@ -76,7 +76,7 @@
                                         <a href="{{ path('single', {'slug': product.slug }) }}"
                                            class="h3 text-decoration-none">{{ product.name|capitalize }}</a>
 
-                                        <p class="text-center mb-0">{{ product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</p>
+                                        <p class="text-center mb-0 mt-2">{{ product.price|format_currency('EUR', locale='fr') }}</p>
                                     </div>
                                 </div>
                             </div>

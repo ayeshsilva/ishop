@@ -48,7 +48,7 @@
                                                         </select></td>
                                                     <td>
                                                         <div class="price-wrap"><var
-                                                                    class="price">{{ cart.product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</var>
+                                                                    class="price">{{ cart.product.price|format_currency('EUR', locale='fr') }}</var>
                                                         </div>
                                                     </td>
                                                     <td  class="text-right d-none d-md-block"><a class="btn btn-danger"
@@ -79,7 +79,7 @@
                                     <div class="card-body">
                                         <dl class="dlist-align">
                                             <dt>Total price:</dt>
-                                            <dd class="text-right ml-3">{{ caculateTotal()|format_currency('EUR', {rounding_mode: 'floor'}) }}</dd>
+                                            <dd class="text-right ml-3">{{ caculateTotal()|format_currency('EUR', locale='fr') }}</dd>
                                         </dl>
                                         {#
                                         <dl class="dlist-align">
@@ -91,7 +91,7 @@
                                             <dt>Total:</dt>
 
                                             <dd class="text-right text-dark b ml-3">
-                                                <strong>{{ caculateTotal()|format_currency('EUR', {rounding_mode: 'floor'}) }}</strong>
+                                                <strong>{{ caculateTotal()|format_currency('EUR', locale='fr') }}</strong>
                                             </dd>
                                         </dl>
                                         <hr>
