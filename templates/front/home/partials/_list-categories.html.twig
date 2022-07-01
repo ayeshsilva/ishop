@@ -1,0 +1,3 @@
+{% for category in categories%}
+    <li><a class="text-decoration-none" href="{{ path('home-category', {'categorySlug': category.slug})}}">{{ category.name|capitalize }}</a></li>
+{%endfor%}

@@ -15,10 +15,9 @@
                             <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                         </a>
                         <ul class="collapse show list-unstyled pl-3">
-                            {% for category in categories%}
-                            <li><a class="text-decoration-none" href="{{ path('home-category', {'categorySlug': category.slug})}}">{{ category.name|capitalize }}</a></li>
-
-                            {%endfor%}
+                            {{ render(controller(
+                                'App\\Controller\\Front\\HomeController::listcategories',
+                            )) }}
                         </ul>
                     </li>
 
@@ -76,7 +75,6 @@
                                     <div class="card-body">
                                         <a href="{{ path('single', {'slug': product.slug }) }}"
                                            class="h3 text-decoration-none">{{ product.name|capitalize }}</a>
-
 
                                         <p class="text-center mb-0">{{ product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</p>
                                     </div>

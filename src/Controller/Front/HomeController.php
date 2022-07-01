@@ -100,4 +100,15 @@ class HomeController extends AbstractController
         ]);
     }
 
+    #[Route('/list-categories', name: 'list-categories')]
+    public function listcategories(CategoryRepository $categoryRepository) : Response
+    {
+        $categories = $categoryRepository->findBy([], ['id' => 'desc']);
+
+        return $this->render(
+            'front/home/partials/_list-categories.html.twig',
+            ['categories' => $categories]
+        );
+
+    }
 }

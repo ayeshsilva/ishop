@@ -18,6 +18,7 @@
                                             <thead class="">
                                             <tr class="small text-uppercase">
                                                 <th scope="col">Product</th>
+                                                <th scope="col">Image</th>
                                                 <th scope="col" width="120">Quantity</th>
                                                 <th scope="col" width="120">Price</th>
                                                 <th scope="col" class="text-right d-none d-md-block" width="200"></th>
@@ -36,18 +37,21 @@
                                                             </figcaption>
                                                         </figure>
                                                     </td>
-                                                    <td><select class="form-control">
+                                                    <td>
+
+                                                        <img src="{{ asset(images_product~cart.product.defaultImage) | imagine_filter('smallImg')  }}"  alt="{{ cart.product.name}}">
+                                                    </td>
+                                                    <td><select class="form-control" disabled>
                                                             {% for i in 1..10%}
                                                             <option {% if cart.quantity == i%} selected{%endif%}>{{ i }}</option>
                                                             {%endfor%}
-
                                                         </select></td>
                                                     <td>
                                                         <div class="price-wrap"><var
                                                                     class="price">{{ cart.product.price|format_currency('EUR', {rounding_mode: 'floor'}) }}</var>
                                                         </div>
                                                     </td>
-                                                    <td class="text-right d-none d-md-block"><a
+                                                    <td  class="text-right d-none d-md-block"><a class="btn btn-danger"
                                                                 href="{{ path('app_front_cart_remove', {'id': key }) }}">Remove</a>
                                                     </td>
                                                 </tr>
